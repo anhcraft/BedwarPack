@@ -1,0 +1,6 @@
+name: BedwarPack
+version: ${project.version}
+main: dev.anhcraft.bwpack.BedwarPack
+depend: [Battle]
+authors: [anhcraft]
+description: Enhanced Bedwar package for Battle
