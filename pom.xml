@@ -32,7 +32,28 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.1</version>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                    <relocations>
+                        <relocation>
+                            <pattern>co.aikar.commands</pattern>
+                            <shadedPattern>dev.anhcraft.craftkit.acf</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>dev.anhcraft.confighelper</pattern>
+                            <shadedPattern>dev.anhcraft.craftkit.helpers.config</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.intellij.lang.annotations</pattern>
+                            <shadedPattern>dev.anhcraft.battle.ext.annotations</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.jetbrains.annotations</pattern>
+                            <shadedPattern>dev.anhcraft.battle.ext.annotations</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -40,7 +61,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>false</minimizeJar>
                         </configuration>
                     </execution>
                 </executions>
@@ -81,7 +102,7 @@
         <dependency>
             <groupId>dev.anhcraft</groupId>
             <artifactId>craftkit.spigot</artifactId>
-            <version>1.1.4</version>
+            <version>1.1.5</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

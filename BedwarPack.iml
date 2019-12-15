@@ -33,10 +33,10 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:battle.spigot.api:1.1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.objecthunter:exp4j:0.4.8" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:18.0.0" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.spigot:1.1.4" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.common:1.1.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.spigot:1.1.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.common:1.1.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:JvmKit:1.1.1" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.cb_common:1.1.4" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.cb_common:1.1.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: co.aikar:acf-paper:0.5.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: co.aikar:acf-bukkit:0.5.0-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: co.aikar:acf-core:0.5.0-SNAPSHOT" level="project" />

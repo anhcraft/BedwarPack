@@ -1,6 +1,7 @@
 name: BedwarPack
 version: ${project.version}
 main: dev.anhcraft.bwpack.BedwarPack
-depend: [Battle]
+depend: [CraftKit, Vault, Battle]
 authors: [anhcraft]
+api-version: "1.13"
 description: Enhanced Bedwar package for Battle

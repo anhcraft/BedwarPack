@@ -1,0 +1,151 @@
+messages:
+  level_up_local_gen_success: "&a&l%s &b&lhas upgraded the local generator to tier &e&l%s"
+  level_up_shared_gen_success: "&a&l%s &b&lhas upgraded the %s generator to tier &e&l%s"
+  level_up_local_gen_failed: "&cReached tier limit."
+  level_up_shared_gen_failed: "&cReached tier limit."
+  too_far_from_base: "&eYou're too far from your base."
+
+worlds:
+  - lighthouse
+
+products:
+  category_filter:
+    - bedwar_items
+    - bedwar_upgrades
+  auto_dye_items:
+    wool:
+      '1':
+        material: "%s_wool"
+        amount: 4
+  extra_executions:
+    upLocalGen:
+      - exec::upgrade_local_generator
+    upDiamondGen:
+      - exec::upgrade_shared_generator { Diamond generator }
+    upEmeraldGen:
+      - exec::upgrade_shared_generator { Emerald generator }
+
+arenas:
+  bw_demo:
+    openable_category_distance: 8
+    shopkeepers:
+      '1':
+        entity_type: villager
+        category: bedwar_items
+        locations:
+          - lighthouse 23.32 65.00 -88.05 270.60 -0.45
+          - lighthouse -27.70 65.00 -87.92 268.50 3.00
+          - lighthouse -85.16 65.00 -19.30 181.50 2.25
+          - lighthouse -85.09 65.00 31.70 181.80 2.10
+          - lighthouse -16.35 65.00 88.95 90.90 0.90
+          - lighthouse 34.63 65.00 89.08 91.95 1.65
+          - lighthouse 92.12 65.00 20.30 1.50 2.40
+          - lighthouse 92.05 65.00 -30.70 359.10 0.15
+      '2':
+        entity_type: blaze
+        category: bedwar_upgrades
+        locations:
+          - lighthouse 34.69 65.00 -87.90 90.15 5.40
+          - lighthouse -16.31 65.00 -87.96 90.30 3.00
+          - lighthouse -84.94 65.00 -30.70 0.30 1.95
+          - lighthouse -85.01 65.00 20.44 1.65 3.60
+          - lighthouse -27.70 65.00 89.16 269.40 2.10
+          - lighthouse 23.40 65.00 88.84 272.40 2.55
+          - lighthouse 91.91 65.00 31.70 179.40 1.20
+          - lighthouse 92.07 65.00 -19.30 179.85 1.50
+    local_generator:
+      locations:
+        - lighthouse 29.42 66.75 -91.58 0 0
+        - lighthouse -22.58 66.75 -91.56 0 0
+        - lighthouse -88.69 66.75 -25.50 0 0
+        - lighthouse -88.70 66.75 26.54 0 0
+        - lighthouse -22.40 66.75 92.70 0 0
+        - lighthouse 29.46 66.75 92.70 0 0
+        - lighthouse 95.70 66.75 26.60 0 0
+        - lighthouse 95.69 66.75 -25.49 0 0
+      tiers:
+        '1':
+          produce_delay: 60
+          items:
+            '1':
+              material: iron_ingot
+              amount:
+                max: 2
+              chance: 10
+            '2':
+              material: gold_ingot
+              chance: 4
+        '2':
+          produce_delay: 60
+          items:
+            '1':
+              material: iron_ingot
+              amount:
+                max: 3
+              chance: 10
+            '2':
+              material: gold_ingot
+              amount:
+                max: 2
+              chance: 4
+        '3':
+          produce_delay: 40
+          items:
+            '1':
+              material: iron_ingot
+              amount:
+                min: 2
+                max: 4
+              chance: 10
+            '2':
+              material: gold_ingot
+              amount:
+                max: 3
+              chance: 5
+    shared_generators:
+      '1':
+        name: "Diamond generator"
+        locations:
+          - lighthouse 55.63 68.5 -51.37 0 0
+          - lighthouse -48.60 68.5 -51.68 0 0
+          - lighthouse -48.37 68.5 52.33 0 0
+          - lighthouse 55.63 68.5 52.49 0 0
+        tiers:
+          '1':
+            produce_delay: 600
+            items:
+              '1':
+                material: diamond
+          '2':
+            produce_delay: 560
+            items:
+              '1':
+                material: diamond
+          '3':
+            produce_delay: 500
+            items:
+              '1':
+                material: diamond
+      '2':
+        name: "Emerald generator"
+        locations:
+          - lighthouse -6.56 67.5 14.47 0 0
+          - lighthouse 13.52 67.5 -13.48 0 0
+          - lighthouse 3.54 88.5 -6.38 0 0
+          - lighthouse 3.59 88.5 7.36 0 0
+        tiers:
+          '1':
+            produce_delay: 1000
+            items:
+              '1':
+                material: emerald
+          '2':
+            produce_delay: 900
+            items:
+              '1':
+                material: emerald
+          '3':
+            produce_delay: 760
+            items:
+              '1':
+                material: emerald
