@@ -18,6 +18,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -59,9 +60,24 @@ public class BlockListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onExplodeBlock(BlockExplodeEvent event){
+    public void onPistonExtend(BlockPistonExtendEvent event){
         if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExplodeBlock(BlockExplodeEvent event){
+        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
+            event.blockList().clear();
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    public void onExplodeBlock(EntityExplodeEvent event){
+        if(bp.worlds.contains(event.getLocation().getWorld().getName())) {
+            event.blockList().clear();
         }
     }
 
