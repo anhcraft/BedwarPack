@@ -82,7 +82,7 @@ public class ConfigLoader {
                             BWTeam bwt = (BWTeam) w.getDataContainer().get("bpm3");
                             for(ActiveGenerator ag : bp.activeGenerators.get(game)){
                                 if(ag.getOwner() != null && ag.getOwner() == bwt){
-                                    if(ag.getLevel() == ag.getGenerator().getTiers().length){
+                                    if(ag.getLevel() == ag.getGenerator().getTiers().length-1){
                                         player.sendMessage(bp.messages.get("level_up_local_gen_failed"));
                                         pair.getThird().setCancelled(true);
                                         pair.getThird().setHasEnoughBalance(true);
@@ -118,7 +118,7 @@ public class ConfigLoader {
                             }
                             for(ActiveGenerator ag : bp.activeGenerators.get(game)){
                                 if(ag.getOwner() == null && i.getArgs()[0].equals(ag.getGenerator().getName())){
-                                    if(ag.getLevel() == ag.getGenerator().getTiers().length){
+                                    if(ag.getLevel() == ag.getGenerator().getTiers().length-1){
                                         player.sendMessage(bp.messages.get("level_up_shared_gen_failed"));
                                         pair.getThird().setCancelled(true);
                                         pair.getThird().setHasEnoughBalance(true);
