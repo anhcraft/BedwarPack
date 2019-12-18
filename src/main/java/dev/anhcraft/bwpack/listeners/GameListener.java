@@ -1,34 +1,31 @@
 package dev.anhcraft.bwpack.listeners;
 
 import dev.anhcraft.battle.ApiProvider;
+import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
 import dev.anhcraft.battle.api.arena.mode.IBedWar;
 import dev.anhcraft.battle.api.arena.mode.Mode;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.api.arena.team.TeamManager;
+import dev.anhcraft.battle.api.events.game.BedBreakEvent;
 import dev.anhcraft.battle.api.events.game.GamePhaseChangeEvent;
 import dev.anhcraft.battle.api.events.game.GameQuitEvent;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
 import dev.anhcraft.bwpack.BedwarPack;
-import dev.anhcraft.bwpack.objects.ActiveGenerator;
-import dev.anhcraft.bwpack.objects.ExArena;
-import dev.anhcraft.bwpack.objects.Generator;
-import dev.anhcraft.bwpack.objects.Shopkeeper;
+import dev.anhcraft.bwpack.objects.*;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class GameListener implements Listener {
     private BedwarPack bp;
@@ -108,5 +105,10 @@ public class GameListener implements Listener {
             w.getDataContainer().remove("bpm2");
             w.getDataContainer().remove("bpm3");
         }
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onBreakBed(BedBreakEvent event){
+        Objects.requireNonNull(BattleApi.getInstance().getPlayerData(event.getPlayer())).getStats().of(BedDestroyStat.class).incrementAndGet();
     }
 }
