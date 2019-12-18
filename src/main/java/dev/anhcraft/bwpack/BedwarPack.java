@@ -1,11 +1,10 @@
 package dev.anhcraft.bwpack;
 
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import dev.anhcraft.battle.api.arena.game.Game;
+import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.api.events.PlayerPrePurchaseEvent;
-import dev.anhcraft.battle.api.game.Game;
-import dev.anhcraft.battle.api.game.GamePhase;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.utils.BlockPosition;
 import dev.anhcraft.battle.utils.functions.FunctionLinker;
@@ -16,7 +15,6 @@ import dev.anhcraft.bwpack.objects.ActiveGenerator;
 import dev.anhcraft.bwpack.objects.AutoDyeItem;
 import dev.anhcraft.bwpack.objects.ExArena;
 import dev.anhcraft.jvmkit.utils.Triplet;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;

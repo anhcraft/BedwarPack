@@ -1,6 +1,6 @@
 package dev.anhcraft.bwpack.objects;
 
-import dev.anhcraft.battle.api.game.BWTeam;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

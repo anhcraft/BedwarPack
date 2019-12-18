@@ -1,32 +1,28 @@
 package dev.anhcraft.bwpack.listeners;
 
-import dev.anhcraft.battle.api.ApiProvider;
+import dev.anhcraft.battle.ApiProvider;
+import dev.anhcraft.battle.api.arena.game.GamePhase;
+import dev.anhcraft.battle.api.arena.game.LocalGame;
+import dev.anhcraft.battle.api.arena.mode.IBedWar;
+import dev.anhcraft.battle.api.arena.mode.Mode;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.battle.api.events.game.GamePhaseChangeEvent;
 import dev.anhcraft.battle.api.events.game.GameQuitEvent;
-import dev.anhcraft.battle.api.game.*;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
-import dev.anhcraft.battle.api.mode.BattleBedWar;
-import dev.anhcraft.battle.api.mode.Mode;
-import dev.anhcraft.battle.utils.BlockPosition;
-import dev.anhcraft.battle.utils.LocationUtil;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.objects.ActiveGenerator;
 import dev.anhcraft.bwpack.objects.ExArena;
 import dev.anhcraft.bwpack.objects.Generator;
 import dev.anhcraft.bwpack.objects.Shopkeeper;
-import dev.anhcraft.craftkit.cb_common.nbt.CompoundTag;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
-import dev.anhcraft.craftkit.utils.EntityUtil;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.ArrayList;
@@ -45,7 +41,7 @@ public class GameListener implements Listener {
     @EventHandler
     public void onPhaseUpdate(GamePhaseChangeEvent event){
         if(event.getNewPhase() == GamePhase.PLAYING && event.getGame().getMode() == Mode.BEDWAR && event.getGame() instanceof LocalGame){
-            BattleBedWar bw = (BattleBedWar) Mode.BEDWAR.getController();
+            IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
             ExArena ea;
             if(bw != null && (ea = bp.arenas.get(event.getGame().getArena().getId())) != null){
                 if(ea.getLocalGenerator() != null){

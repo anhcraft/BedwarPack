@@ -1,46 +1,30 @@
 package dev.anhcraft.bwpack.listeners;
 
 import com.google.common.collect.ImmutableList;
-import dev.anhcraft.battle.api.ApiProvider;
-import dev.anhcraft.battle.api.BattleGuiManager;
+import dev.anhcraft.battle.ApiProvider;
+import dev.anhcraft.battle.api.arena.game.LocalGame;
+import dev.anhcraft.battle.api.arena.mode.IBedWar;
+import dev.anhcraft.battle.api.arena.mode.Mode;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.battle.api.events.PlayerPrePurchaseEvent;
 import dev.anhcraft.battle.api.events.PlayerPurchaseEvent;
 import dev.anhcraft.battle.api.events.gui.GuiOpenEvent;
-import dev.anhcraft.battle.api.game.BWTeam;
-import dev.anhcraft.battle.api.game.LocalGame;
-import dev.anhcraft.battle.api.game.TeamManager;
+import dev.anhcraft.battle.api.gui.GuiManager;
 import dev.anhcraft.battle.api.gui.NativeGui;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
-import dev.anhcraft.battle.api.mode.BattleBedWar;
-import dev.anhcraft.battle.api.mode.Mode;
 import dev.anhcraft.battle.utils.functions.FunctionLinker;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.objects.AutoDyeItem;
 import dev.anhcraft.bwpack.objects.ExArena;
 import dev.anhcraft.jvmkit.utils.Triplet;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class MarketListener implements Listener {
-    private static final ImmutableList<String> DYEABLE = ImmutableList.of(
-            "_SHULKER_BOX",
-            "_GLAZED_TERRACOTTA",
-            "_BED",
-            "_BANNER",
-            "_CARPET",
-            "_CONCRETE",
-            "_CONCRETE_POWDER",
-            "_STAINED_GLASS",
-            "_STAINED_GLASS_PANE",
-            "_DYE",
-            "_TERRACOTTA",
-            "_WALL_BANNER",
-            "_WOOL"
-    );
     private BedwarPack bp;
 
     public MarketListener(BedwarPack bp) {
@@ -52,7 +36,7 @@ public class MarketListener implements Listener {
         if(event.getRightClicked().hasMetadata("bpskp")){
             Category ctg = (Category) event.getRightClicked().getMetadata("bpskp").get(0).value();
             event.setCancelled(true);
-            BattleGuiManager gm = ApiProvider.consume().getGuiManager();
+            GuiManager gm = ApiProvider.consume().getGuiManager();
             Window w = gm.getWindow(event.getPlayer());
             w.getDataContainer().put("mkctg", ctg);
             w.getDataContainer().put("bpomvs", true);
@@ -63,7 +47,7 @@ public class MarketListener implements Listener {
     @EventHandler
     public void onPreBuy(PlayerPrePurchaseEvent event){
         if(bp.categories.contains(event.getCategory().getId())) {
-            BattleGuiManager gm = ApiProvider.consume().getGuiManager();
+            GuiManager gm = ApiProvider.consume().getGuiManager();
             Window w = gm.getWindow(event.getPlayer());
             for (FunctionLinker<Triplet<Window, Player, PlayerPrePurchaseEvent>> ins : bp.exInstructions.get(event.getProduct().getId())) {
                 ins.call(new Triplet<>(w, event.getPlayer(), event));
@@ -74,7 +58,7 @@ public class MarketListener implements Listener {
     @EventHandler
     public void onBuy(PlayerPurchaseEvent event){
         if(bp.categories.contains(event.getCategory().getId())) {
-            BattleGuiManager gm = ApiProvider.consume().getGuiManager();
+            GuiManager gm = ApiProvider.consume().getGuiManager();
             Window w = gm.getWindow(event.getPlayer());
             for (FunctionLinker<Triplet<Window, Player, PlayerPrePurchaseEvent>> ins : bp.exInstructions.get(event.getProduct().getId())) {
                 ins.call(new Triplet<>(w, event.getPlayer(), null));
@@ -92,12 +76,12 @@ public class MarketListener implements Listener {
             Window w = event.getWindow();
             Category ctg = (Category) w.getDataContainer().get("mkctg");
             if(ctg != null && bp.categories.contains(ctg.getId())){
-                LocalGame g = ApiProvider.consume().getGameManager().getGame(event.getPlayer());
+                LocalGame g = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
                 if(g == null || g.getMode() != Mode.BEDWAR) {
                     event.setCancelled(true);
                     return;
                 }
-                BattleBedWar bw = (BattleBedWar) Mode.BEDWAR.getController();
+                IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
                 if(bw == null) {
                     event.setCancelled(true);
                     return;

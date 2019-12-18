@@ -1,12 +1,11 @@
 package dev.anhcraft.bwpack.objects;
 
-import dev.anhcraft.battle.api.misc.ConfigurableObject;
+import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.battle.utils.LocationUtil;
 import dev.anhcraft.confighelper.ConfigHelper;
 import dev.anhcraft.confighelper.ConfigSchema;
 import dev.anhcraft.confighelper.annotation.Key;
 import dev.anhcraft.confighelper.annotation.Schema;
-import dev.anhcraft.confighelper.annotation.Validation;
 import dev.anhcraft.confighelper.exception.InvalidValueException;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;

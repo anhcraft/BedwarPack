@@ -1,13 +1,9 @@
 package dev.anhcraft.bwpack;
 
-import dev.anhcraft.battle.api.ApiProvider;
-import dev.anhcraft.battle.api.BattleAPI;
-import dev.anhcraft.battle.api.game.BWTeam;
-import dev.anhcraft.battle.api.game.LocalGame;
-import dev.anhcraft.battle.api.game.TeamManager;
+import dev.anhcraft.battle.api.arena.game.LocalGame;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.battle.api.gui.screen.Window;
-import dev.anhcraft.battle.api.mode.BattleBedWar;
-import dev.anhcraft.battle.api.mode.Mode;
 import dev.anhcraft.battle.utils.functions.FunctionLinker;
 import dev.anhcraft.battle.utils.functions.Instruction;
 import dev.anhcraft.bwpack.objects.ActiveGenerator;
