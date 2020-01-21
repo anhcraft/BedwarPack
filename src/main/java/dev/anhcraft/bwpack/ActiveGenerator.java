@@ -1,6 +1,8 @@
-package dev.anhcraft.bwpack.objects;
+package dev.anhcraft.bwpack;
 
 import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.bwpack.schemas.Generator;
+import dev.anhcraft.bwpack.schemas.Tier;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

@@ -1,6 +1,5 @@
 package dev.anhcraft.bwpack.listeners;
 
-import com.google.common.collect.ImmutableList;
 import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
 import dev.anhcraft.battle.api.arena.mode.IBedWar;
@@ -16,8 +15,9 @@ import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.utils.functions.FunctionLinker;
 import dev.anhcraft.bwpack.BedwarPack;
-import dev.anhcraft.bwpack.objects.AutoDyeItem;
-import dev.anhcraft.bwpack.objects.ExArena;
+import dev.anhcraft.bwpack.instructions.TransactionInfo;
+import dev.anhcraft.bwpack.schemas.AutoDyeItem;
+import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.jvmkit.utils.Triplet;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -49,8 +49,8 @@ public class MarketListener implements Listener {
         if(bp.categories.contains(event.getCategory().getId())) {
             GuiManager gm = ApiProvider.consume().getGuiManager();
             Window w = gm.getWindow(event.getPlayer());
-            for (FunctionLinker<Triplet<Window, Player, PlayerPrePurchaseEvent>> ins : bp.exInstructions.get(event.getProduct().getId())) {
-                ins.call(new Triplet<>(w, event.getPlayer(), event));
+            for (FunctionLinker<TransactionInfo> ins : bp.marketInstructions.get(event.getProduct().getId())) {
+                ins.call(new TransactionInfo(w, event.getPlayer(), event));
             }
         }
     }
@@ -60,8 +60,8 @@ public class MarketListener implements Listener {
         if(bp.categories.contains(event.getCategory().getId())) {
             GuiManager gm = ApiProvider.consume().getGuiManager();
             Window w = gm.getWindow(event.getPlayer());
-            for (FunctionLinker<Triplet<Window, Player, PlayerPrePurchaseEvent>> ins : bp.exInstructions.get(event.getProduct().getId())) {
-                ins.call(new Triplet<>(w, event.getPlayer(), null));
+            for (FunctionLinker<TransactionInfo> ins : bp.marketInstructions.get(event.getProduct().getId())) {
+                ins.call(new TransactionInfo(w, event.getPlayer(), null));
             }
             BWTeam bwt = (BWTeam) w.getDataContainer().get("bpm3");
             for (AutoDyeItem adi : bp.autoDyeProducts.get(event.getProduct().getId())) {

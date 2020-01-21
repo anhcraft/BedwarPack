@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack.objects;
+package dev.anhcraft.bwpack.schemas;
 
 import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.battle.utils.LocationUtil;
@@ -31,9 +31,7 @@ public class Generator extends ConfigurableObject {
 
     @NotNull
     public List<Location> getLocations() {
-        return locations.stream()
-                .map(LocationUtil::fromString)
-                .collect(Collectors.toList());
+        return locations.stream().map(LocationUtil::fromString).collect(Collectors.toList());
     }
 
     @NotNull

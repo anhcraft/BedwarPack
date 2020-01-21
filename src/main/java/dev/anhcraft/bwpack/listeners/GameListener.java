@@ -14,8 +14,12 @@ import dev.anhcraft.battle.api.events.game.GameQuitEvent;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
+import dev.anhcraft.bwpack.ActiveGenerator;
 import dev.anhcraft.bwpack.BedwarPack;
-import dev.anhcraft.bwpack.objects.*;
+import dev.anhcraft.bwpack.schemas.ExArena;
+import dev.anhcraft.bwpack.schemas.Generator;
+import dev.anhcraft.bwpack.schemas.Shopkeeper;
+import dev.anhcraft.bwpack.stats.BedDestroyStat;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -34,7 +38,6 @@ public class GameListener implements Listener {
         this.bp = bp;
     }
 
-    @SuppressWarnings("UnstableApiUsage")
     @EventHandler
     public void onPhaseUpdate(GamePhaseChangeEvent event){
         if(event.getNewPhase() == GamePhase.PLAYING && event.getGame().getMode() == Mode.BEDWAR && event.getGame() instanceof LocalGame){

@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack.objects;
+package dev.anhcraft.bwpack.schemas;
 
 import dev.anhcraft.battle.utils.EnumUtil;
 import dev.anhcraft.confighelper.annotation.Key;
