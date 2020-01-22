@@ -31,11 +31,11 @@ products:
       - generator::upgrade_shared { Emerald Gen }
     healthPool:
       - pool::remove_potion { * }
-      - pool::set_potion { 0; regeneration; 0; 30; teammates }
+      - pool::set_potion { 0; regeneration; 0; 20; teammates }
     slownessPool:
       - pool::remove_potion { * }
-      - pool::set_potion { 0; slow_digging; 0; 30; enemies }
-      - pool::set_potion { 1; slow; 0; 30; enemies }
+      - pool::set_potion { 0; slow_digging; 0; 20; enemies }
+      - pool::set_potion { 1; slow; 0; 20; enemies }
 
 arenas:
   bw_demo:
