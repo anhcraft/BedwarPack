@@ -18,8 +18,6 @@ import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.instructions.TransactionInfo;
 import dev.anhcraft.bwpack.schemas.AutoDyeItem;
 import dev.anhcraft.bwpack.schemas.ExArena;
-import dev.anhcraft.jvmkit.utils.Triplet;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
