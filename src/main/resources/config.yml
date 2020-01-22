@@ -21,7 +21,7 @@ products:
     wool:
       '1':
         material: "%s_wool"
-        amount: 4
+        amount: 16
   extra_executions:
     upLocalGen:
       - generator::upgrade_local
