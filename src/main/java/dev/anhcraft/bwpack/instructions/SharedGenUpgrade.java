@@ -11,7 +11,7 @@ public class SharedGenUpgrade implements InstructionCallback<TransactionInfo> {
     @Override
     public void call(@NotNull Instruction instruction, @NotNull TransactionInfo info) {
         if(instruction.getArgs().length == 0){
-            BedwarPack.getInstance().getLogger().warning("Missing instructions arguments: upgrade_shared_generator");
+            BedwarPack.getInstance().getLogger().warning("Missing instructions arguments: " + ExInstruction.SHARED_GEN_UPGRADE.name());
             return;
         }
         LocalGame game = (LocalGame) info.getWindow().getDataContainer().get("bpm1");
