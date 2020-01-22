@@ -2,6 +2,8 @@ package dev.anhcraft.bwpack;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import dev.anhcraft.battle.api.BattleApi;
+import dev.anhcraft.battle.api.arena.Arena;
 import dev.anhcraft.battle.api.arena.game.Game;
 import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.utils.BlockPosition;
@@ -111,7 +113,12 @@ public final class BedwarPack extends JavaPlugin {
         ConfigurationSection aa = bp.getConfig().getConfigurationSection("arenas");
         try {
             for(String s : aa.getKeys(false)){
-                bp.arenas.put(s, ConfigHelper.readConfig(aa.getConfigurationSection(s), ConfigSchema.of(ExArena.class)));
+                Arena a = BattleApi.getInstance().getArena(s);
+                if(a == null){
+                    getLogger().warning("Arena not configured in arenas.yml: " + s);
+                    continue;
+                }
+                bp.arenas.put(s, ConfigHelper.readConfig(aa.getConfigurationSection(s), ConfigSchema.of(ExArena.class), new ExArena(a)));
             }
         } catch (InvalidValueException e) {
             e.printStackTrace();
