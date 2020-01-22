@@ -1,3 +1,4 @@
+# Plugin messages
 messages:
   level_up_local_gen_success: "&a&l%s &b&lhas upgraded the local generator to tier &e&l%s"
   level_up_shared_gen_success: "&a&l%s &b&lhas upgraded the %s generator to tier &e&l%s"
@@ -5,8 +6,12 @@ messages:
   level_up_shared_gen_failed: "&cReached tier limit."
   too_far_from_base: "&eYou're too far from your base."
 
+# List of worlds related to BedWars
 worlds:
   - lighthouse
+
+performance:
+  fast_pool_check: true
 
 products:
   category_filter:
@@ -19,11 +24,18 @@ products:
         amount: 4
   extra_executions:
     upLocalGen:
-      - exec::upgrade_local_generator
+      - generator::upgrade_local
     upDiamondGen:
-      - exec::upgrade_shared_generator { Diamond generator }
+      - generator::upgrade_shared { Diamond Gen }
     upEmeraldGen:
-      - exec::upgrade_shared_generator { Emerald generator }
+      - generator::upgrade_shared { Emerald Gen }
+    healthPool:
+      - pool::remove_potion { * }
+      - pool::set_potion { 0; regeneration; 0; 30; teammates }
+    slownessPool:
+      - pool::remove_potion { * }
+      - pool::set_potion { 0; slow_digging; 0; 30; enemies }
+      - pool::set_potion { 1; slow; 0; 30; enemies }
 
 arenas:
   bw_demo:
@@ -104,7 +116,7 @@ arenas:
               chance: 5
     shared_generators:
       '1':
-        name: "Diamond generator"
+        name: "Diamond Gen"
         locations:
           - lighthouse 55.63 68.5 -51.37 0 0
           - lighthouse -48.60 68.5 -51.68 0 0
@@ -127,7 +139,7 @@ arenas:
               '1':
                 material: diamond
       '2':
-        name: "Emerald generator"
+        name: "Emerald Gen"
         locations:
           - lighthouse -6.56 67.5 14.47 0 0
           - lighthouse 13.52 67.5 -13.48 0 0

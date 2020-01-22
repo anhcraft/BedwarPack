@@ -15,6 +15,7 @@ import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
 import dev.anhcraft.bwpack.ActiveGenerator;
+import dev.anhcraft.bwpack.ActivePool;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.bwpack.schemas.Generator;
@@ -101,6 +102,12 @@ public class GameListener implements Listener {
             } else if(event.getNewPhase() == GamePhase.END) {
                 //bp.activeGenerators.removeAll(event.getGame()); // this one is removed automatically
                 bp.placedBlocks.removeAll(event.getGame());
+                ExArena ea = bp.arenas.get(event.getGame().getArena().getId());
+                for (ActivePool activePool : ea.getActivePools().values()){
+                    activePool.removeAllPotion();
+                }
+                bp.world2pools.values().removeAll(ea.getActivePools().values());
+                ea.getActivePools().clear();
             }
         }
     }

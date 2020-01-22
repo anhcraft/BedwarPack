@@ -1,5 +1,6 @@
 package dev.anhcraft.bwpack;
 
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import dev.anhcraft.battle.api.BattleApi;
@@ -14,6 +15,7 @@ import dev.anhcraft.bwpack.instructions.TransactionInfo;
 import dev.anhcraft.bwpack.listeners.BlockListener;
 import dev.anhcraft.bwpack.listeners.GameListener;
 import dev.anhcraft.bwpack.listeners.MarketListener;
+import dev.anhcraft.bwpack.listeners.PlayerListener;
 import dev.anhcraft.bwpack.schemas.AutoDyeItem;
 import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.confighelper.ConfigHelper;
@@ -37,6 +39,7 @@ public final class BedwarPack extends JavaPlugin {
     public final Map<String, ExArena> arenas = new HashMap<>();
     public final List<String> categories = new ArrayList<>();
     public final List<String> worlds = new ArrayList<>();
+    public final Multimap<String, ActivePool> world2pools = HashMultimap.create();
     private static BedwarPack instance;
 
     @NotNull
@@ -52,6 +55,7 @@ public final class BedwarPack extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new MarketListener(this), this);
         getServer().getPluginManager().registerEvents(new GameListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
 
         new BukkitRunnable() {
             @Override

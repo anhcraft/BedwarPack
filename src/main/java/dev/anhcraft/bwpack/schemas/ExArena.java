@@ -1,6 +1,9 @@
 package dev.anhcraft.bwpack.schemas;
 
+import dev.anhcraft.battle.api.arena.Arena;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.utils.ConfigurableObject;
+import dev.anhcraft.bwpack.ActivePool;
 import dev.anhcraft.confighelper.ConfigHelper;
 import dev.anhcraft.confighelper.ConfigSchema;
 import dev.anhcraft.confighelper.annotation.Key;
@@ -11,8 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Schema
 public class ExArena extends ConfigurableObject {
@@ -27,6 +29,19 @@ public class ExArena extends ConfigurableObject {
 
     @Key("shared_generators")
     private List<Generator> sharedGenerators = new ArrayList<>();
+
+    private Arena arena;
+
+    private Map<BWTeam, ActivePool> activePools = new HashMap<>();
+
+    public ExArena(@NotNull Arena arena) {
+        this.arena = arena;
+    }
+
+    @NotNull
+    public Arena getArena() {
+        return arena;
+    }
 
     public double getOpenableCategoryDistance() {
         return openableCategoryDistance;
@@ -45,6 +60,11 @@ public class ExArena extends ConfigurableObject {
     @NotNull
     public List<Shopkeeper> getShopkeepers() {
         return shopkeepers;
+    }
+
+    @NotNull
+    public Map<BWTeam, ActivePool> getActivePools() {
+        return activePools;
     }
 
     @Override
