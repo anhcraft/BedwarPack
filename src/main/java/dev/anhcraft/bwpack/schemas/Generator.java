@@ -29,6 +29,15 @@ public class Generator extends ConfigurableObject {
     @Key("tiers")
     private Tier[] tiers = new Tier[0];
 
+    @Key("hologram.enabled")
+    private boolean hologramEnabled;
+
+    @Key("hologram.offset")
+    private double hologramOffset;
+
+    @Key("hologram.lines")
+    private List<String> hologramLines;
+
     @NotNull
     public List<Location> getLocations() {
         return locations.stream().map(LocationUtil::fromString).collect(Collectors.toList());
@@ -42,6 +51,19 @@ public class Generator extends ConfigurableObject {
     @Nullable
     public String getName() {
         return name;
+    }
+
+    public boolean isHologramEnabled() {
+        return hologramEnabled;
+    }
+
+    public double getHologramOffset() {
+        return hologramOffset;
+    }
+
+    @Nullable
+    public List<String> getHologramLines() {
+        return hologramLines;
     }
 
     @Override

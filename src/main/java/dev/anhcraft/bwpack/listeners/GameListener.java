@@ -2,6 +2,7 @@ package dev.anhcraft.bwpack.listeners;
 
 import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.BattleApi;
+import dev.anhcraft.battle.api.arena.game.Game;
 import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
 import dev.anhcraft.battle.api.arena.mode.IBedWar;
@@ -22,6 +23,9 @@ import dev.anhcraft.bwpack.schemas.Generator;
 import dev.anhcraft.bwpack.schemas.Shopkeeper;
 import dev.anhcraft.bwpack.stats.BedDestroyStat;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
+import dev.anhcraft.craftkit.entity.ArmorStand;
+import dev.anhcraft.craftkit.entity.TrackedEntity;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -29,6 +33,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -37,6 +42,23 @@ public class GameListener implements Listener {
 
     public GameListener(BedwarPack bp) {
         this.bp = bp;
+    }
+
+    private List<TrackedEntity<ArmorStand>> createArmorstand(Generator generator, Location location, Game game){
+        if(!generator.isHologramEnabled()) return null;
+        if(generator.getHologramLines() == null || generator.getHologramLines().isEmpty()) return null;
+        List<TrackedEntity<ArmorStand>> list = new ArrayList<>();
+        for(int i = generator.getHologramLines().size() - 1; i >= 0; i--){
+            ArmorStand x = ArmorStand.spawn(location.clone());
+            location.add(0, generator.getHologramOffset(), 0);
+            x.setVisible(false);
+            x.setNameVisible(true);
+            x.setViewers(new ArrayList<>(((LocalGame) game).getPlayers().keySet()));
+            TrackedEntity<ArmorStand> te = bp.craftExtension.trackEntity(x);
+            te.setViewDistance(16 * Bukkit.getViewDistance());
+            list.add(te);
+        }
+        return list;
     }
 
     @EventHandler
@@ -66,7 +88,7 @@ public class GameListener implements Listener {
                                     chosenTeam = bwt;
                                     nearestDist = dist;
                                 }
-                                bp.activeGenerators.put(event.getGame(), new ActiveGenerator(genLoc, ea.getLocalGenerator(), chosenTeam));
+                                bp.activeGenerators.put(event.getGame(), new ActiveGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, createArmorstand(ea.getLocalGenerator(), genLoc, event.getGame())));
                                 bwts.remove(chosenTeam);
                                 it.remove();
                             }
@@ -74,7 +96,7 @@ public class GameListener implements Listener {
                     }
                     for (Generator gen : ea.getSharedGenerators()) {
                         for (Location loc : gen.getLocations()) {
-                            bp.activeGenerators.put(event.getGame(), new ActiveGenerator(loc, gen, null));
+                            bp.activeGenerators.put(event.getGame(), new ActiveGenerator(loc, gen, null, createArmorstand(gen, loc, event.getGame())));
                         }
                     }
                     Market mk = ApiProvider.consume().getMarket();

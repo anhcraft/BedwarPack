@@ -21,7 +21,10 @@ import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.confighelper.ConfigHelper;
 import dev.anhcraft.confighelper.ConfigSchema;
 import dev.anhcraft.confighelper.exception.InvalidValueException;
+import dev.anhcraft.craftkit.CraftExtension;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
+import dev.anhcraft.craftkit.entity.ArmorStand;
+import dev.anhcraft.craftkit.entity.TrackedEntity;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -41,6 +44,7 @@ public final class BedwarPack extends JavaPlugin {
     public final List<String> worlds = new ArrayList<>();
     public final Multimap<String, ActivePool> world2pools = HashMultimap.create();
     private static BedwarPack instance;
+    public CraftExtension craftExtension;
 
     @NotNull
     public static BedwarPack getInstance(){
@@ -50,6 +54,7 @@ public final class BedwarPack extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+        craftExtension = CraftExtension.of(BedwarPack.class);
         reloadConf();
 
         getServer().getPluginManager().registerEvents(new MarketListener(this), this);
@@ -63,6 +68,14 @@ public final class BedwarPack extends JavaPlugin {
                 for (Iterator<Game> it = activeGenerators.keys().iterator(); it.hasNext(); ) {
                     Game g = it.next();
                     if(g == null || g.getPhase() != GamePhase.PLAYING){
+                        for (ActiveGenerator ag : activeGenerators.get(g)){
+                            if (ag.getHologram() != null) {
+                                for (TrackedEntity<ArmorStand> x : ag.getHologram()) {
+                                    x.kill();
+                                    craftExtension.untrackEntity(x);
+                                }
+                            }
+                        }
                         it.remove();
                         continue;
                     }
