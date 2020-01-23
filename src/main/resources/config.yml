@@ -10,9 +10,6 @@ messages:
 worlds:
   - lighthouse
 
-performance:
-  fast_pool_check: true
-
 products:
   category_filter:
     - bedwar_items
@@ -39,7 +36,7 @@ products:
 
 arenas:
   bw_demo:
-    openable_category_distance: 8
+    openable_category_distance: 7
     shopkeepers:
       '1':
         entity_type: villager
@@ -67,14 +64,14 @@ arenas:
           - lighthouse 92.07 65.00 -19.30 179.85 1.50
     local_generator:
       locations:
-        - lighthouse 29.42 66.75 -91.58 0 0
-        - lighthouse -22.58 66.75 -91.56 0 0
-        - lighthouse -88.69 66.75 -25.50 0 0
-        - lighthouse -88.70 66.75 26.54 0 0
-        - lighthouse -22.40 66.75 92.70 0 0
-        - lighthouse 29.46 66.75 92.70 0 0
-        - lighthouse 95.70 66.75 26.60 0 0
-        - lighthouse 95.69 66.75 -25.49 0 0
+        - lighthouse 29.42 66.5 -91.58 0 0
+        - lighthouse -22.58 66.5 -91.56 0 0
+        - lighthouse -88.69 66.5 -25.50 0 0
+        - lighthouse -88.70 66.5 26.54 0 0
+        - lighthouse -22.40 66.5 92.70 0 0
+        - lighthouse 29.46 66.5 92.70 0 0
+        - lighthouse 95.70 66.5 26.60 0 0
+        - lighthouse 95.69 66.5 -25.49 0 0
       tiers:
         '1':
           produce_delay: 60
@@ -118,10 +115,17 @@ arenas:
       '1':
         name: "Diamond Gen"
         locations:
-          - lighthouse 55.63 68.5 -51.37 0 0
-          - lighthouse -48.60 68.5 -51.68 0 0
-          - lighthouse -48.37 68.5 52.33 0 0
-          - lighthouse 55.63 68.5 52.49 0 0
+          - lighthouse 55.63 67.5 -51.37 0 0
+          - lighthouse -48.60 67.5 -51.68 0 0
+          - lighthouse -48.37 67.5 52.33 0 0
+          - lighthouse 55.63 67.5 52.49 0 0
+        hologram:
+          enabled: true
+          offset: 0.35
+          lines:
+          - "&b&lDiamond Generator"
+          - "&e&lTier {__tier__}"
+          - "&c&l{__time_left__}"
         tiers:
           '1':
             produce_delay: 600
@@ -141,10 +145,17 @@ arenas:
       '2':
         name: "Emerald Gen"
         locations:
-          - lighthouse -6.56 67.5 14.47 0 0
-          - lighthouse 13.52 67.5 -13.48 0 0
-          - lighthouse 3.54 88.5 -6.38 0 0
-          - lighthouse 3.59 88.5 7.36 0 0
+          - lighthouse -6.56 66.25 14.47 0 0
+          - lighthouse 13.52 66.25 -13.48 0 0
+          - lighthouse 3.54 87.5 -6.38 0 0
+          - lighthouse 3.59 87.5 7.36 0 0
+        hologram:
+          enabled: true
+          offset: 0.35
+          lines:
+            - "&a&lEmerald Generator"
+            - "&e&lTier {__tier__}"
+            - "&c&l{__time_left__}"
         tiers:
           '1':
             produce_delay: 1000
