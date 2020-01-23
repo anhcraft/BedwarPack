@@ -65,30 +65,10 @@ public class ActivePool {
     }
 
     private Map<Integer, Potion> potions = new HashMap<>();
-    private BoundingBox boundingBox;
     private int hash;
 
     public ActivePool(int hash) {
         this.hash = hash;
-    }
-
-    private synchronized void recalculate(){
-        boundingBox = null;
-        if(!potions.isEmpty()) {
-            for (Potion p : potions.values()) {
-                if (boundingBox == null) {
-                    boundingBox = new BoundingBox(p.boundingBox);
-                } else {
-                    boundingBox.union(p.boundingBox);
-                }
-            }
-            boundingBox.expand(1, 1, 1);
-        }
-    }
-
-    @Nullable
-    public BoundingBox getBoundingBox() {
-        return boundingBox;
     }
 
     @NotNull
@@ -101,13 +81,11 @@ public class ActivePool {
         if(x != null){
             x.removeAll();
         }
-        recalculate();
     }
 
     public void removeAllPotion(){
         potions.values().forEach(Potion::removeAll);
         potions.clear();
-        boundingBox = null;
     }
 
     public void setPotion(int index, Potion potion){
@@ -115,7 +93,6 @@ public class ActivePool {
         if(x != null){
             x.removeAll();
         }
-        recalculate();
     }
 
     @NotNull
