@@ -10,6 +10,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
     private BedwarPack bp;
@@ -79,13 +81,20 @@ public class BlockListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event){
         if(bp.worlds.contains(event.getBlock().getWorld().getName())){
             if(event.getBlock().getType() == Material.TNT){
                 event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.PRIMED_TNT);
                 event.setBuild(false);
                 event.setCancelled(true);
+                ItemStack i = event.getItemInHand();
+                if(event.getHand() == EquipmentSlot.HAND) {
+                    i.setAmount(i.getAmount() - 1);
+                    event.getPlayer().getInventory().setItemInMainHand(i);
+                } else {
+                    event.getPlayer().getInventory().setItemInOffHand(i);
+                }
                 return;
             }
             Game game = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
