@@ -36,6 +36,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameListener implements Listener {
     private BedwarPack bp;
@@ -72,7 +73,7 @@ public class GameListener implements Listener {
                         TeamManager<BWTeam> x = bw.getTeamManager((LocalGame) event.getGame());
                         if (x == null) return;
                         List<Location> genLocs = new ArrayList<>(ea.getLocalGenerator().getLocations());
-                        List<BWTeam> bwts = new ArrayList<>(x.getTeams());
+                        List<BWTeam> bwts = x.getTeams().stream().filter(t -> x.countPlayers(t) == 0).collect(Collectors.toList());
                         outer:
                         while (!genLocs.isEmpty()) {
                             for (Iterator<Location> it = genLocs.iterator(); it.hasNext(); ) {
