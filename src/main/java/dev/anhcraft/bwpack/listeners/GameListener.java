@@ -2,7 +2,6 @@ package dev.anhcraft.bwpack.listeners;
 
 import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.BattleApi;
-import dev.anhcraft.battle.api.arena.game.Game;
 import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
 import dev.anhcraft.battle.api.arena.mode.IBedWar;
@@ -33,7 +32,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.metadata.FixedMetadataValue;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,7 +43,7 @@ public class GameListener implements Listener {
         this.bp = bp;
     }
 
-    private List<TrackedEntity<ArmorStand>> createArmorstand(Generator generator, Location location, Game game){
+    private List<TrackedEntity<ArmorStand>> createArmorstand(Generator generator, Location location, LocalGame game){
         if(!generator.isHologramEnabled()) return null;
         if(generator.getHologramLines() == null || generator.getHologramLines().isEmpty()) return null;
         List<TrackedEntity<ArmorStand>> list = new ArrayList<>();
@@ -54,7 +52,7 @@ public class GameListener implements Listener {
             location.add(0, generator.getHologramOffset(), 0);
             x.setVisible(false);
             x.setNameVisible(true);
-            x.setViewers(new ArrayList<>(((LocalGame) game).getPlayers().keySet()));
+            x.setViewers(new ArrayList<>(game.getPlayers().keySet()));
             TrackedEntity<ArmorStand> te = bp.craftExtension.trackEntity(x);
             te.setViewDistance(16 * Bukkit.getViewDistance());
             list.add(te);
@@ -65,15 +63,18 @@ public class GameListener implements Listener {
     @EventHandler
     public void onPhaseUpdate(GamePhaseChangeEvent event){
         if(event.getGame().getMode() == Mode.BEDWAR && event.getGame() instanceof LocalGame){
+            LocalGame game = (LocalGame) event.getGame();
             if(event.getNewPhase() == GamePhase.PLAYING) {
                 IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
                 ExArena ea;
-                if (bw != null && (ea = bp.arenas.get(event.getGame().getArena().getId())) != null) {
+                if (bw != null && (ea = bp.arenas.get(game.getArena().getId())) != null) {
                     if (ea.getLocalGenerator() != null) {
-                        TeamManager<BWTeam> x = bw.getTeamManager((LocalGame) event.getGame());
+                        TeamManager<BWTeam> x = bw.getTeamManager(game);
                         if (x == null) return;
                         List<Location> genLocs = new ArrayList<>(ea.getLocalGenerator().getLocations());
-                        List<BWTeam> bwts = x.getTeams().stream().filter(t -> x.countPlayers(t) == 0).collect(Collectors.toList());
+                        List<BWTeam> bwts = x.getTeams().stream()
+                                .filter(t -> x.countPlayers(t) == 0)
+                                .collect(Collectors.toList());
                         outer:
                         while (!genLocs.isEmpty()) {
                             for (Iterator<Location> it = genLocs.iterator(); it.hasNext(); ) {
@@ -89,7 +90,9 @@ public class GameListener implements Listener {
                                     chosenTeam = bwt;
                                     nearestDist = dist;
                                 }
-                                bp.activeGenerators.put(event.getGame(), new ActiveGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, createArmorstand(ea.getLocalGenerator(), genLoc, event.getGame())));
+                                game.addInvolvedWorld(genLoc.getWorld());
+                                ActiveGenerator ag = new ActiveGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, createArmorstand(ea.getLocalGenerator(), genLoc, game));
+                                bp.activeGenerators.put(game, ag);
                                 bwts.remove(chosenTeam);
                                 it.remove();
                             }
@@ -97,15 +100,20 @@ public class GameListener implements Listener {
                     }
                     for (Generator gen : ea.getSharedGenerators()) {
                         for (Location loc : gen.getLocations()) {
-                            bp.activeGenerators.put(event.getGame(), new ActiveGenerator(loc, gen, null, createArmorstand(gen, loc, event.getGame())));
+                            game.addInvolvedWorld(loc.getWorld());
+                            ActiveGenerator ag = new ActiveGenerator(loc, gen, null, createArmorstand(gen, loc, game));
+                            bp.activeGenerators.put(game, ag);
                         }
                     }
                     Market mk = ApiProvider.consume().getMarket();
                     for (Shopkeeper sk : ea.getShopkeepers()) {
-                        Optional<Category> ctg = mk.getCategories().stream().filter(c -> c.getId().equals(sk.getCategory())).findAny();
+                        Optional<Category> ctg = mk.getCategories().stream()
+                                .filter(c -> c.getId().equals(sk.getCategory()))
+                                .findAny();
                         if (!ctg.isPresent()) continue;
                         Category ct = ctg.get();
                         for (Location loc : sk.getLocations()) {
+                            game.addInvolvedWorld(loc.getWorld());
                             Entity ent = loc.getWorld().spawnEntity(loc, sk.getEntityType());
                             ent.setInvulnerable(true);
                             ent.setMetadata("bpskp", new FixedMetadataValue(bp, ct));
@@ -123,9 +131,9 @@ public class GameListener implements Listener {
                     }
                 }
             } else if(event.getNewPhase() == GamePhase.END) {
-                //bp.activeGenerators.removeAll(event.getGame()); // this one is removed automatically
-                bp.placedBlocks.removeAll(event.getGame());
-                ExArena ea = bp.arenas.get(event.getGame().getArena().getId());
+                //bp.activeGenerators.removeAll(game); // this one is removed automatically
+                bp.placedBlocks.removeAll(game);
+                ExArena ea = bp.arenas.get(game.getArena().getId());
                 for (ActivePool activePool : ea.getActivePools().values()){
                     activePool.removeAllPotion();
                 }
