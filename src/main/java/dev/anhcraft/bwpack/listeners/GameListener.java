@@ -155,6 +155,6 @@ public class GameListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onBreakBed(BedBreakEvent event){
-        Objects.requireNonNull(BattleApi.getInstance().getPlayerData(event.getPlayer())).getStats().of(BedDestroyStat.class).incrementAndGet();
+        Objects.requireNonNull(BattleApi.getInstance().getPlayerData(event.getPlayer())).getStats().of(BedDestroyStat.class).increase(event.getPlayer());
     }
 }

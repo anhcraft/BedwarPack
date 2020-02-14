@@ -124,8 +124,8 @@ arenas:
           offset: 0.35
           lines:
           - "&b&lDiamond Generator"
-          - "&e&lTier {__tier__}"
-          - "&c&l{__time_left__}"
+          - "&e&lTier <tier>"
+          - "&c&l<time_left>"
         tiers:
           '1':
             produce_delay: 600
@@ -154,8 +154,8 @@ arenas:
           offset: 0.35
           lines:
             - "&a&lEmerald Generator"
-            - "&e&lTier {__tier__}"
-            - "&c&l{__time_left__}"
+            - "&e&lTier <tier>"
+            - "&c&l<time_left>"
         tiers:
           '1':
             produce_delay: 1000
