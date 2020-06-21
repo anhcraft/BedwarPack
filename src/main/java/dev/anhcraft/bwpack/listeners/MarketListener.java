@@ -23,7 +23,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class MarketListener implements Listener {
-    private BedwarPack bp;
+    private final BedwarPack bp;
 
     public MarketListener(BedwarPack bp) {
         this.bp = bp;

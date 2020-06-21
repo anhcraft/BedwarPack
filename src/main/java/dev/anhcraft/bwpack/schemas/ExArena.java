@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
+@SuppressWarnings("FieldMayBeFinal")
 @Schema
 public class ExArena extends ConfigurableObject {
     @Key("openable_category_distance")
@@ -30,9 +31,9 @@ public class ExArena extends ConfigurableObject {
     @Key("shared_generators")
     private List<Generator> sharedGenerators = new ArrayList<>();
 
-    private Arena arena;
+    private final Arena arena;
 
-    private Map<BWTeam, ActivePool> activePools = new HashMap<>();
+    private final Map<BWTeam, ActivePool> activePools = new HashMap<>();
 
     public ExArena(@NotNull Arena arena) {
         this.arena = arena;

@@ -12,8 +12,8 @@ public enum ExInstruction {
     SET_POTION_POOL("pool", "set_potion", PotionPoolSet::new),
     REMOVE_POTION_POOL("pool", "remove_potion", PotionPoolRemove::new);
 
-    private int hash;
-    private Supplier<InstructionCallback> callbackSupplier;
+    private final int hash;
+    private final Supplier<InstructionCallback> callbackSupplier;
 
     ExInstruction(String a, String b, @NotNull Supplier<InstructionCallback> callbackSupplier) {
         hash = Objects.hash(a, b);

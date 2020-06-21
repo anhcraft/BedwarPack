@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("FieldMayBeFinal")
 @Schema
 public class Generator extends ConfigurableObject {
     @Key("name")

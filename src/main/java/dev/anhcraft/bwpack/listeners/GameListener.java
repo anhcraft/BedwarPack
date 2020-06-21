@@ -37,7 +37,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameListener implements Listener {
-    private BedwarPack bp;
+    private final BedwarPack bp;
 
     public GameListener(BedwarPack bp) {
         this.bp = bp;

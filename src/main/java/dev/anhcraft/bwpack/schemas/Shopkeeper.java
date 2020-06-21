@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("FieldMayBeFinal")
 @Schema
 public class Shopkeeper extends ConfigurableObject {
     @Key("entity_type")

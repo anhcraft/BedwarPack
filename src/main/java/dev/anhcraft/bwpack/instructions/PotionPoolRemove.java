@@ -9,8 +9,6 @@ import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.jvmkit.lang.enumeration.RegEx;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Predicate;
-
 public class PotionPoolRemove implements InstructionCallback<TransactionInfo> {
     @Override
     public void call(@NotNull Instruction instruction, @NotNull TransactionInfo info) {

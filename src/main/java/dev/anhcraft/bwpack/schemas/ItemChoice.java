@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
 
+@SuppressWarnings("FieldMayBeFinal")
 @Schema
 public class ItemChoice extends ConfigurableObject {
     private static final SecureRandom RANDOMIZER = new SecureRandom();

@@ -8,22 +8,20 @@ import dev.anhcraft.bwpack.schemas.Generator;
 import dev.anhcraft.bwpack.schemas.Tier;
 import dev.anhcraft.craftkit.entity.ArmorStand;
 import dev.anhcraft.craftkit.entity.TrackedEntity;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class ActiveGenerator {
-    private Location location;
-    private Generator generator;
+    private final Location location;
+    private final Generator generator;
     private int level;
     private long nextSpawn;
-    private BWTeam owner;
-    private List<TrackedEntity<ArmorStand>> hologram;
+    private final BWTeam owner;
+    private final List<TrackedEntity<ArmorStand>> hologram;
 
     public ActiveGenerator(@NotNull Location location, @NotNull Generator generator, @Nullable BWTeam owner, List<TrackedEntity<ArmorStand>> hologram) {
         this.generator = generator;

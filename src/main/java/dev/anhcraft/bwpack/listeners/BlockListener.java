@@ -14,7 +14,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
-    private BedwarPack bp;
+    private final BedwarPack bp;
 
     public BlockListener(BedwarPack bp) {
         this.bp = bp;

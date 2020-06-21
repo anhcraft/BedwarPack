@@ -13,15 +13,14 @@ import dev.anhcraft.bwpack.ActivePool;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.schemas.ExArena;
 import dev.anhcraft.jvmkit.utils.PresentPair;
-import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
 
-import java.util.*;
+import java.util.Collection;
 
 public class PlayerListener implements Listener {
-    private BedwarPack bp;
+    private final BedwarPack bp;
 
     public PlayerListener(BedwarPack bp) {
         this.bp = bp;

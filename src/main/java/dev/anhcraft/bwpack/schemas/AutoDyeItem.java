@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("FieldMayBeFinal")
 @Schema
 public class AutoDyeItem {
     @Key("material")

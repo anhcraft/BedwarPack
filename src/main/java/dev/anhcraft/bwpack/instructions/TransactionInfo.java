@@ -7,9 +7,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TransactionInfo {
-    private Window window;
-    private Player player;
-    private PlayerPrePurchaseEvent event;
+    private final Window window;
+    private final Player player;
+    private final PlayerPrePurchaseEvent event;
 
     public TransactionInfo(@NotNull Window window, @NotNull Player player, @Nullable PlayerPrePurchaseEvent event) {
         this.window = window;
