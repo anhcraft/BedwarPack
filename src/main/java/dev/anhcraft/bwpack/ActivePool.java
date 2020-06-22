@@ -15,10 +15,10 @@ import java.util.function.Predicate;
 public class ActivePool {
     public static class Potion {
         private final List<Player> players = new ArrayList<>();
-        private PotionEffectType type;
-        private int amplifier;
-        private BoundingBox boundingBox;
-        private Predicate<PresentPair<Game, BWTeam>> validator;
+        private final PotionEffectType type;
+        private final int amplifier;
+        private final BoundingBox boundingBox;
+        private final Predicate<PresentPair<Game, BWTeam>> validator;
 
         public Potion(PotionEffectType type, int amplifier, BoundingBox boundingBox, Predicate<PresentPair<Game, BWTeam>> validator) {
             this.type = type;
@@ -63,8 +63,8 @@ public class ActivePool {
         }
     }
 
-    private Map<Integer, Potion> potions = new HashMap<>();
-    private int hash;
+    private final Map<Integer, Potion> potions = new HashMap<>();
+    private final int hash;
 
     public ActivePool(int hash) {
         this.hash = hash;
