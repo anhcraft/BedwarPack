@@ -1,7 +1,7 @@
 # Plugin messages
 messages:
-  level_up_local_gen_success: "&a%s &b&lhas upgraded the local generator to tier &e&l%s"
-  level_up_shared_gen_success: "&a%s &b&lhas upgraded the %s generator to tier &e&l%s"
+  level_up_local_gen_success: "&a%s &bhas upgraded the local generator to tier &e%s"
+  level_up_shared_gen_success: "&a%s &bhas upgraded the %s generator to tier &e%s"
   level_up_local_gen_failed: "&cReached tier limit."
   level_up_shared_gen_failed: "&cReached tier limit."
   too_far_from_base: "&eYou're too far from your base."
