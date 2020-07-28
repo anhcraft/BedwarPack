@@ -14,12 +14,12 @@ import dev.anhcraft.battle.api.events.game.GameQuitEvent;
 import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
-import dev.anhcraft.bwpack.ActiveGenerator;
-import dev.anhcraft.bwpack.ActivePool;
+import dev.anhcraft.bwpack.features.ItemGenerator;
+import dev.anhcraft.bwpack.features.PotionPool;
 import dev.anhcraft.bwpack.BedwarPack;
-import dev.anhcraft.bwpack.schemas.ExArena;
-import dev.anhcraft.bwpack.schemas.Generator;
-import dev.anhcraft.bwpack.schemas.Shopkeeper;
+import dev.anhcraft.bwpack.config.schemas.BedwarArena;
+import dev.anhcraft.bwpack.config.schemas.Generator;
+import dev.anhcraft.bwpack.config.schemas.Shopkeeper;
 import dev.anhcraft.bwpack.stats.BedDestroyStat;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import dev.anhcraft.craftkit.entity.ArmorStand;
@@ -37,23 +37,17 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameListener implements Listener {
-    private final BedwarPack bp;
-
-    public GameListener(BedwarPack bp) {
-        this.bp = bp;
-    }
-
-    private List<TrackedEntity<ArmorStand>> createArmorstand(Generator generator, Location location, LocalGame game){
-        if(!generator.isHologramEnabled()) return null;
-        if(generator.getHologramLines() == null || generator.getHologramLines().isEmpty()) return null;
+    private List<TrackedEntity<ArmorStand>> createArmorStand(Generator gen, Location location, LocalGame game){
+        if(!gen.isHologramEnabled()) return null;
+        if(gen.getHologramLines() == null || gen.getHologramLines().isEmpty()) return null;
         List<TrackedEntity<ArmorStand>> list = new ArrayList<>();
-        for(int i = generator.getHologramLines().size() - 1; i >= 0; i--){
+        for(int i = gen.getHologramLines().size() - 1; i >= 0; i--){
             ArmorStand x = ArmorStand.spawn(location.clone());
-            location.add(0, generator.getHologramOffset(), 0);
+            location.add(0, gen.getHologramOffset(), 0);
             x.setVisible(false);
             x.setNameVisible(true);
             x.setViewers(new ArrayList<>(game.getPlayers().keySet()));
-            TrackedEntity<ArmorStand> te = bp.craftExtension.trackEntity(x);
+            TrackedEntity<ArmorStand> te = BedwarPack.getInstance().craftExtension.trackEntity(x);
             te.setViewDistance(16 * Bukkit.getViewDistance());
             list.add(te);
         }
@@ -66,90 +60,82 @@ public class GameListener implements Listener {
             LocalGame game = (LocalGame) event.getGame();
             if(event.getNewPhase() == GamePhase.PLAYING) {
                 IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
-                ExArena ea;
-                if (bw != null && (ea = bp.arenas.get(game.getArena().getId())) != null) {
+                BedwarArena ea;
+                if (bw != null && (ea = BedwarPack.getInstance().config.getArena(game.getArena().getId())) != null) {
                     if (ea.getLocalGenerator() != null) {
-                        TeamManager<BWTeam> x = bw.getTeamManager(game);
-                        if (x == null) return;
+                        TeamManager<BWTeam> tm = bw.getTeamManager(game);
+                        if (tm == null) return;
                         List<Location> genLocs = new ArrayList<>(ea.getLocalGenerator().getLocations());
-                        List<BWTeam> bwts = x.getTeams().stream()
-                                .filter(t -> x.countPlayers(t) == 0)
+                        List<BWTeam> bwts = tm.getTeams().stream()
+                                .filter(t -> tm.countPlayers(t) > 0)
                                 .collect(Collectors.toList());
-                        outer:
-                        while (!genLocs.isEmpty()) {
-                            for (Iterator<Location> it = genLocs.iterator(); it.hasNext(); ) {
-                                if (bwts.isEmpty()) break outer;
-                                Location genLoc = it.next();
-                                BWTeam chosenTeam = null;
-                                double nearestDist = 0;
-                                for (BWTeam bwt : bwts) {
-                                    double dist = genLoc.distanceSquared(bwt.getCenterSpawnPoint());
-                                    if (chosenTeam != null && dist >= nearestDist) {
-                                        continue;
+                        if(!bwts.isEmpty()) {
+                            outer:
+                            while (!genLocs.isEmpty()) {
+                                for (Iterator<Location> it = genLocs.iterator(); it.hasNext(); ) {
+                                    Location genLoc = it.next();
+                                    BWTeam chosenTeam = null;
+                                    double nearestDist = 0;
+                                    for (BWTeam bwt : bwts) {
+                                        double dist = genLoc.distanceSquared(bwt.getCenterSpawnPoint());
+                                        if (chosenTeam != null && dist >= nearestDist) {
+                                            continue;
+                                        }
+                                        chosenTeam = bwt;
+                                        nearestDist = dist;
                                     }
-                                    chosenTeam = bwt;
-                                    nearestDist = dist;
+                                    game.addInvolvedWorld(genLoc.getWorld());
+                                    List<TrackedEntity<ArmorStand>> as = createArmorStand(ea.getLocalGenerator(), genLoc, game);
+                                    ItemGenerator ag = new ItemGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, as);
+                                    BedwarPack.getInstance().itemGenerators.put(game, ag);
+                                    bwts.remove(chosenTeam);
+                                    it.remove();
+                                    // when no teams left, the outer loop needs to be stopped
+                                    if(bwts.isEmpty()) break outer;
                                 }
-                                game.addInvolvedWorld(genLoc.getWorld());
-                                ActiveGenerator ag = new ActiveGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, createArmorstand(ea.getLocalGenerator(), genLoc, game));
-                                bp.activeGenerators.put(game, ag);
-                                bwts.remove(chosenTeam);
-                                it.remove();
                             }
                         }
                     }
-                    for (Generator gen : ea.getSharedGenerators()) {
-                        for (Location loc : gen.getLocations()) {
-                            game.addInvolvedWorld(loc.getWorld());
-                            ActiveGenerator ag = new ActiveGenerator(loc, gen, null, createArmorstand(gen, loc, game));
-                            bp.activeGenerators.put(game, ag);
+                    if (ea.getSharedGenerators() != null) {
+                        for (Generator gen : ea.getSharedGenerators()) {
+                            for (Location loc : gen.getLocations()) {
+                                game.addInvolvedWorld(loc.getWorld());
+                                ItemGenerator ag = new ItemGenerator(loc, gen, null, createArmorStand(gen, loc, game));
+                                BedwarPack.getInstance().itemGenerators.put(game, ag);
+                            }
                         }
                     }
                     Market mk = ApiProvider.consume().getMarket();
-                    for (Shopkeeper sk : ea.getShopkeepers()) {
-                        Optional<Category> ctg = mk.getCategories().stream()
-                                .filter(c -> c.getId().equals(sk.getCategory()))
-                                .findAny();
-                        if (!ctg.isPresent()) continue;
-                        Category ct = ctg.get();
-                        for (Location loc : sk.getLocations()) {
-                            game.addInvolvedWorld(loc.getWorld());
-                            Entity ent = loc.getWorld().spawnEntity(loc, sk.getEntityType());
-                            ent.setInvulnerable(true);
-                            ent.setMetadata("bpskp", new FixedMetadataValue(bp, ct));
-                            if (ct.getIcon().name() != null) {
-                                ent.setCustomNameVisible(true);
-                                ent.setCustomName(ChatUtil.formatColorCodes(ct.getIcon().name()));
-                            }
-                            if (ent instanceof LivingEntity) {
-                                LivingEntity x = (LivingEntity) ent;
-                                x.setAI(false);
-                                x.setCanPickupItems(false);
-                                x.setRemoveWhenFarAway(false);
+                    if (ea.getShopkeepers() != null) {
+                        for (Shopkeeper sk : ea.getShopkeepers()) {
+                            Optional<Category> ctg = mk.getCategories().stream()
+                                    .filter(c -> c.getId().equals(sk.getCategory()))
+                                    .findAny();
+                            if (!ctg.isPresent()) continue;
+                            Category ct = ctg.get();
+                            for (Location loc : sk.getLocations()) {
+                                game.addInvolvedWorld(loc.getWorld());
+                                Entity ent = loc.getWorld().spawnEntity(loc, sk.getEntityType());
+                                ent.setInvulnerable(true);
+                                ent.setMetadata("bpskp", new FixedMetadataValue(BedwarPack.getInstance(), ct));
+                                if (ct.getIcon().name() != null) {
+                                    ent.setCustomNameVisible(true);
+                                    ent.setCustomName(ChatUtil.formatColorCodes(ct.getIcon().name()));
+                                }
+                                if (ent instanceof LivingEntity) {
+                                    LivingEntity x = (LivingEntity) ent;
+                                    x.setAI(false);
+                                    x.setCanPickupItems(false);
+                                    x.setRemoveWhenFarAway(false);
+                                }
                             }
                         }
                     }
                 }
             } else if(event.getNewPhase() == GamePhase.END) {
-                //bp.activeGenerators.removeAll(game); // this one is removed automatically
-                bp.placedBlocks.removeAll(game);
-                ExArena ea = bp.arenas.get(game.getArena().getId());
-                for (ActivePool activePool : ea.getActivePools().values()){
-                    activePool.removeAllPotion();
-                }
-                bp.world2pools.values().removeAll(ea.getActivePools().values());
-                ea.getActivePools().clear();
+                BedwarPack.getInstance().potionPools.removeAll(game).forEach(PotionPool::removeAllPotion);
+                // BedwarPack.getInstance().itemGenerators.removeAll(game); // this one is removed automatically
             }
-        }
-    }
-
-    @EventHandler
-    public void onQuit(GameQuitEvent event){
-        if(event.getGame().getMode() == Mode.BEDWAR){
-            Window w = ApiProvider.consume().getGuiManager().getWindow(event.getGamePlayer().toBukkit());
-            w.getDataContainer().remove("bpm1");
-            w.getDataContainer().remove("bpm2");
-            w.getDataContainer().remove("bpm3");
         }
     }
 

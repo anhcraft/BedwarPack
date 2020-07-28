@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack.schemas;
+package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.confighelper.ConfigHelper;
@@ -28,8 +28,8 @@ public class Tier extends ConfigurableObject {
     private long produceDelay;
 
     @Key("items")
-    @Validation(notEmptyList = true)
-    private List<ItemChoice> items = new ArrayList<>();
+    @Validation(notEmptyList = true, notNull = true)
+    private List<ItemChoice> items;
 
     private double maxChance;
 
@@ -64,9 +64,7 @@ public class Tier extends ConfigurableObject {
             for(String s : cs.getKeys(false)){
                 try {
                     ItemChoice x = ConfigHelper.readConfig(cs.getConfigurationSection(s), ConfigSchema.of(ItemChoice.class));
-                    if(maxChance < x.getChance()) {
-                        maxChance = x.getChance();
-                    }
+                    maxChance = Math.max(maxChance, x.getChance());
                     itlt.add(x);
                 } catch (InvalidValueException e) {
                     e.printStackTrace();

@@ -37,6 +37,11 @@
       <option name="url" value="http://repo.extendedclip.com/content/repositories/placeholderapi/" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="mcvn-repo" />
+      <option name="name" value="mcvn-repo" />
+      <option name="url" value="https://repo.minecraftvn.net/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />

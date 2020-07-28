@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack.schemas;
+package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.battle.utils.LocationUtil;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
 @Schema
 public class Shopkeeper extends ConfigurableObject {
     @Key("entity_type")
@@ -24,6 +24,7 @@ public class Shopkeeper extends ConfigurableObject {
     private String category;
 
     @Key("locations")
+    @IgnoreValue(ifNull = true)
     private List<String> locations = new ArrayList<>();
 
     @NotNull

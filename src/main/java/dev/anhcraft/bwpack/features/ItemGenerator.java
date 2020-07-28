@@ -1,11 +1,11 @@
-package dev.anhcraft.bwpack;
+package dev.anhcraft.bwpack.features;
 
 import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.utils.info.InfoHolder;
 import dev.anhcraft.battle.utils.info.InfoReplacer;
-import dev.anhcraft.bwpack.schemas.Generator;
-import dev.anhcraft.bwpack.schemas.Tier;
+import dev.anhcraft.bwpack.config.schemas.Generator;
+import dev.anhcraft.bwpack.config.schemas.Tier;
 import dev.anhcraft.craftkit.entity.ArmorStand;
 import dev.anhcraft.craftkit.entity.TrackedEntity;
 import org.bukkit.Location;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Date;
 import java.util.List;
 
-public class ActiveGenerator {
+public class ItemGenerator {
     private final Location location;
     private final Generator generator;
     private int level;
@@ -23,7 +23,7 @@ public class ActiveGenerator {
     private final BWTeam owner;
     private final List<TrackedEntity<ArmorStand>> hologram;
 
-    public ActiveGenerator(@NotNull Location location, @NotNull Generator generator, @Nullable BWTeam owner, List<TrackedEntity<ArmorStand>> hologram) {
+    public ItemGenerator(@NotNull Location location, @NotNull Generator generator, @Nullable BWTeam owner, List<TrackedEntity<ArmorStand>> hologram) {
         this.generator = generator;
         this.location = location;
         this.owner = owner;

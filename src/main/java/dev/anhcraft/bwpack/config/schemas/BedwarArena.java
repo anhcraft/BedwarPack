@@ -1,9 +1,7 @@
-package dev.anhcraft.bwpack.schemas;
+package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.battle.api.arena.Arena;
-import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.utils.ConfigurableObject;
-import dev.anhcraft.bwpack.ActivePool;
 import dev.anhcraft.confighelper.ConfigHelper;
 import dev.anhcraft.confighelper.ConfigSchema;
 import dev.anhcraft.confighelper.annotation.Key;
@@ -18,54 +16,29 @@ import java.util.*;
 
 @SuppressWarnings("FieldMayBeFinal")
 @Schema
-public class ExArena extends ConfigurableObject {
-    @Key("openable_category_distance")
-    private double openableCategoryDistance;
-
+public class BedwarArena extends ConfigurableObject {
     @Key("local_generator")
     private Generator localGenerator;
 
-    @Key("shopkeepers")
-    private List<Shopkeeper> shopkeepers = new ArrayList<>();
-
     @Key("shared_generators")
-    private List<Generator> sharedGenerators = new ArrayList<>();
+    private List<Generator> sharedGenerators;
 
-    private final Arena arena;
-
-    private final Map<BWTeam, ActivePool> activePools = new HashMap<>();
-
-    public ExArena(@NotNull Arena arena) {
-        this.arena = arena;
-    }
-
-    @NotNull
-    public Arena getArena() {
-        return arena;
-    }
-
-    public double getOpenableCategoryDistance() {
-        return openableCategoryDistance;
-    }
+    @Key("shopkeepers")
+    private List<Shopkeeper> shopkeepers;
 
     @Nullable
     public Generator getLocalGenerator() {
         return localGenerator;
     }
 
-    @NotNull
+    @Nullable
     public List<Generator> getSharedGenerators() {
         return sharedGenerators;
     }
 
-    @NotNull
+    @Nullable
     public List<Shopkeeper> getShopkeepers() {
         return shopkeepers;
-    }
-
-    @NotNull
-    public Map<BWTeam, ActivePool> getActivePools() {
-        return activePools;
     }
 
     @Override

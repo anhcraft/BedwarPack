@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack.schemas;
+package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.confighelper.annotation.Key;

@@ -1,4 +1,4 @@
-package dev.anhcraft.bwpack;
+package dev.anhcraft.bwpack.utils;
 
 public enum TargetPlayer {
     ALL,

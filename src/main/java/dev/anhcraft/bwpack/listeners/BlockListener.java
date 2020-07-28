@@ -2,88 +2,36 @@ package dev.anhcraft.bwpack.listeners;
 
 import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.arena.game.Game;
-import dev.anhcraft.battle.utils.BlockPosition;
-import dev.anhcraft.bwpack.BedwarPack;
+import dev.anhcraft.battle.api.arena.game.LocalGame;
+import dev.anhcraft.battle.api.arena.mode.IBedWar;
+import dev.anhcraft.battle.api.arena.mode.Mode;
+import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.api.arena.team.TeamManager;
+import dev.anhcraft.bwpack.utils.GameUtils;
+import dev.anhcraft.craftkit.cb_common.NMSVersion;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.*;
-import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 public class BlockListener implements Listener {
-    private final BedwarPack bp;
-
-    public BlockListener(BedwarPack bp) {
-        this.bp = bp;
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockFrom(BlockFormEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockGrow(BlockGrowEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onBlockRedstone(BlockRedstoneEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.setNewCurrent(0);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onIgniteBlock(BlockIgniteEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPistonExtend(BlockPistonExtendEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onExplodeBlock(BlockExplodeEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            event.blockList().clear();
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onExplodeBlock(EntityExplodeEvent event){
-        if(bp.worlds.contains(event.getLocation().getWorld().getName())) {
-            event.blockList().clear();
-        }
-    }
-
     @EventHandler(ignoreCancelled = true)
     public void onBreakBlock(BlockBreakEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())) {
-            Game game = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
-            if(game != null && !bp.placedBlocks.get(game).contains(BlockPosition.of(event.getBlock()))){
-                event.setDropItems(false);
-                event.setCancelled(true);
-            }
+        Game game = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
+        if(game != null && game.getMode() == Mode.BEDWAR && !GameUtils.removePlacedBlock(game, event.getBlock())){
+            event.setDropItems(false);
+            event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onPlace(BlockPlaceEvent event){
-        if(bp.worlds.contains(event.getBlock().getWorld().getName())){
+        LocalGame game = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
+        if(game != null && game.getMode() == Mode.BEDWAR){
             if(event.getBlock().getType() == Material.TNT){
                 event.getBlock().getWorld().spawnEntity(event.getBlock().getLocation(), EntityType.PRIMED_TNT);
                 event.setBuild(false);
@@ -97,10 +45,16 @@ public class BlockListener implements Listener {
                 }
                 return;
             }
-            Game game = ApiProvider.consume().getArenaManager().getGame(event.getPlayer());
-            if(game != null){
-                bp.placedBlocks.get(game).add(BlockPosition.of(event.getBlock()));
+            if(NMSVersion.current().compare(NMSVersion.v1_13_R1) >= 0 && event.getBlock().getType().name().contains("WOOL")){
+                IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
+                if(bw == null) return;
+                TeamManager<BWTeam> teamManager = bw.getTeamManager(game);
+                if(teamManager == null) return;
+                BWTeam team = teamManager.getTeam(event.getPlayer());
+                if(team == null) return;
+                event.getBlock().setType(Material.getMaterial(team.getColor().name()+"_WOOL"));
             }
+            GameUtils.addPlacedBlock(game, event.getBlock());
         }
     }
 }

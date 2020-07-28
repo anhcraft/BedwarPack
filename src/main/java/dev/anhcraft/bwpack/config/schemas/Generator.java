@@ -1,9 +1,10 @@
-package dev.anhcraft.bwpack.schemas;
+package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.battle.utils.LocationUtil;
 import dev.anhcraft.confighelper.ConfigHelper;
 import dev.anhcraft.confighelper.ConfigSchema;
+import dev.anhcraft.confighelper.annotation.IgnoreValue;
 import dev.anhcraft.confighelper.annotation.Key;
 import dev.anhcraft.confighelper.annotation.Schema;
 import dev.anhcraft.confighelper.exception.InvalidValueException;
@@ -18,16 +19,18 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@SuppressWarnings("FieldMayBeFinal")
+@SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
 @Schema
 public class Generator extends ConfigurableObject {
     @Key("name")
     private String name;
 
     @Key("locations")
+    @IgnoreValue(ifNull = true)
     private List<String> locations = new ArrayList<>();
 
     @Key("tiers")
+    @IgnoreValue(ifNull = true)
     private Tier[] tiers = new Tier[0];
 
     @Key("hologram.enabled")
@@ -39,6 +42,11 @@ public class Generator extends ConfigurableObject {
     @Key("hologram.lines")
     private List<String> hologramLines;
 
+    @Nullable
+    public String getName() {
+        return name;
+    }
+
     @NotNull
     public List<Location> getLocations() {
         return locations.stream().map(LocationUtil::fromString).collect(Collectors.toList());
@@ -47,11 +55,6 @@ public class Generator extends ConfigurableObject {
     @NotNull
     public Tier[] getTiers() {
         return tiers;
-    }
-
-    @Nullable
-    public String getName() {
-        return name;
     }
 
     public boolean isHologramEnabled() {

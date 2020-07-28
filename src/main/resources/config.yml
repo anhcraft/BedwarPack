@@ -1,42 +1,13 @@
 # Plugin messages
 messages:
-  level_up_local_gen_success: "&a%s &bhas upgraded the local generator to tier &e%s"
-  level_up_shared_gen_success: "&a%s &bhas upgraded the %s generator to tier &e%s"
+  level_up_local_gen_success: "&a<player> &bhas upgraded the local generator to tier &e<tier>."
+  level_up_shared_gen_success: "&a<player> &bhas upgraded the <name> generator to tier &e<tier>."
   level_up_local_gen_failed: "&cReached tier limit."
   level_up_shared_gen_failed: "&cReached tier limit."
   too_far_from_base: "&eYou're too far from your base."
 
-# List of worlds related to BedWars
-worlds:
-  - lighthouse
-
-products:
-  category_filter:
-    - bedwar_items
-    - bedwar_upgrades
-  auto_dye_items:
-    wool:
-      '1':
-        material: "%s_wool"
-        amount: 16
-  extra_executions:
-    upLocalGen:
-      - generator::upgrade_local
-    upDiamondGen:
-      - generator::upgrade_shared { Diamond Gen }
-    upEmeraldGen:
-      - generator::upgrade_shared { Emerald Gen }
-    healthPool:
-      - pool::remove_potion { * }
-      - pool::set_potion { 0; regeneration; 0; 20; teammates }
-    slownessPool:
-      - pool::remove_potion { * }
-      - pool::set_potion { 0; slow_digging; 0; 20; enemies }
-      - pool::set_potion { 1; slow; 0; 20; enemies }
-
 arenas:
-  bw_demo:
-    openable_category_distance: 7
+  bw_lighthouse:
     shopkeepers:
       '1':
         entity_type: villager
