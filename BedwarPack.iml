@@ -32,8 +32,8 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.12-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:battle.spigot.api:1.2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.objecthunter:exp4j:0.4.8" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.4" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:inst:1.0.2" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:inst:1.0.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:19.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.spigot:1.2.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:craftkit.common:1.2.0" level="project" />

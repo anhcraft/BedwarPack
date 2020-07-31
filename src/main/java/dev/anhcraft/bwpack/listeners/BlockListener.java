@@ -3,8 +3,8 @@ package dev.anhcraft.bwpack.listeners;
 import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.arena.game.Game;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
-import dev.anhcraft.battle.api.arena.mode.IBedWar;
-import dev.anhcraft.battle.api.arena.mode.Mode;
+import dev.anhcraft.battle.api.arena.game.Mode;
+import dev.anhcraft.battle.api.arena.game.controllers.BedWarController;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.bwpack.utils.GameUtils;
@@ -46,7 +46,7 @@ public class BlockListener implements Listener {
                 return;
             }
             if(NMSVersion.current().compare(NMSVersion.v1_13_R1) >= 0 && event.getBlock().getType().name().contains("WOOL")){
-                IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
+                BedWarController bw = (BedWarController) Mode.BEDWAR.getController();
                 if(bw == null) return;
                 TeamManager<BWTeam> teamManager = bw.getTeamManager(game);
                 if(teamManager == null) return;

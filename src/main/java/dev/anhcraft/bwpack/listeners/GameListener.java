@@ -4,22 +4,20 @@ import dev.anhcraft.battle.ApiProvider;
 import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.game.GamePhase;
 import dev.anhcraft.battle.api.arena.game.LocalGame;
-import dev.anhcraft.battle.api.arena.mode.IBedWar;
-import dev.anhcraft.battle.api.arena.mode.Mode;
+import dev.anhcraft.battle.api.arena.game.Mode;
+import dev.anhcraft.battle.api.arena.game.controllers.BedWarController;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.battle.api.events.game.BedBreakEvent;
 import dev.anhcraft.battle.api.events.game.GamePhaseChangeEvent;
-import dev.anhcraft.battle.api.events.game.GameQuitEvent;
-import dev.anhcraft.battle.api.gui.screen.Window;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
-import dev.anhcraft.bwpack.features.ItemGenerator;
-import dev.anhcraft.bwpack.features.PotionPool;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.config.schemas.BedwarArena;
 import dev.anhcraft.bwpack.config.schemas.Generator;
 import dev.anhcraft.bwpack.config.schemas.Shopkeeper;
+import dev.anhcraft.bwpack.features.ItemGenerator;
+import dev.anhcraft.bwpack.features.PotionPool;
 import dev.anhcraft.bwpack.stats.BedDestroyStat;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import dev.anhcraft.craftkit.entity.ArmorStand;
@@ -59,7 +57,7 @@ public class GameListener implements Listener {
         if(event.getGame().getMode() == Mode.BEDWAR && event.getGame() instanceof LocalGame){
             LocalGame game = (LocalGame) event.getGame();
             if(event.getNewPhase() == GamePhase.PLAYING) {
-                IBedWar bw = (IBedWar) Mode.BEDWAR.getController();
+                BedWarController bw = (BedWarController) Mode.BEDWAR.getController();
                 BedwarArena ea;
                 if (bw != null && (ea = BedwarPack.getInstance().config.getArena(game.getArena().getId())) != null) {
                     if (ea.getLocalGenerator() != null) {
