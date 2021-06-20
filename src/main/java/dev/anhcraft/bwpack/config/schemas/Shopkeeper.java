@@ -1,8 +1,10 @@
 package dev.anhcraft.bwpack.config.schemas;
 
-import dev.anhcraft.battle.utils.ConfigurableObject;
 import dev.anhcraft.battle.utils.LocationUtil;
-import dev.anhcraft.confighelper.annotation.*;
+import dev.anhcraft.config.annotations.Configurable;
+import dev.anhcraft.config.annotations.Path;
+import dev.anhcraft.config.annotations.Setting;
+import dev.anhcraft.config.annotations.Validation;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.jetbrains.annotations.NotNull;
@@ -12,19 +14,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings({"FieldMayBeFinal", "MismatchedQueryAndUpdateOfCollection"})
-@Schema
-public class Shopkeeper extends ConfigurableObject {
-    @Key("entity_type")
-    @PrettyEnum
-    @IgnoreValue(ifNull = true)
+@Configurable
+public class Shopkeeper {
+    @Setting
+    @Path("entity_type")
+    @Validation(notNull = true, silent = true)
     private EntityType entityType = EntityType.VILLAGER;
 
-    @Key("category")
+    @Setting
     @Validation(notNull = true)
     private String category;
 
-    @Key("locations")
-    @IgnoreValue(ifNull = true)
+    @Setting
+    @Validation(notNull = true, silent = true)
     private List<String> locations = new ArrayList<>();
 
     @NotNull

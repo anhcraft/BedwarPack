@@ -61,7 +61,7 @@ public class BWPackFunction extends GuiHandler {
         if(gen.equalsIgnoreCase("local")) {
             for (ItemGenerator ag : BedwarPack.getInstance().itemGenerators.get(game)) {
                 if (ag.getOwner() != null && ag.getOwner() == team) {
-                    if (ag.getLevel() == ag.getGenerator().getTiers().length - 1) {
+                    if (ag.getLevel() == ag.getGenerator().getTiers().size() - 1) {
                         p.sendMessage(BedwarPack.getInstance().config.getMessage("level_up_local_gen_failed"));
                         vm.setVariable(resultVar.getTarget(), new BoolVal(false));
                     } else {
@@ -73,7 +73,7 @@ public class BWPackFunction extends GuiHandler {
         } else {
             for (ItemGenerator ag : BedwarPack.getInstance().itemGenerators.get(game)) {
                 if(ag.getOwner() == null && gen.equals(ag.getGenerator().getName())){
-                    if (ag.getLevel() == ag.getGenerator().getTiers().length - 1) {
+                    if (ag.getLevel() == ag.getGenerator().getTiers().size() - 1) {
                         p.sendMessage(BedwarPack.getInstance().config.getMessage("level_up_shared_gen_failed"));
                         vm.setVariable(resultVar.getTarget(), new BoolVal(false));
                     } else {
@@ -101,14 +101,14 @@ public class BWPackFunction extends GuiHandler {
         ItemGenerator ig = null;
         if(gen.equalsIgnoreCase("local")) {
             for (ItemGenerator ag : BedwarPack.getInstance().itemGenerators.get(game)) {
-                if (ag.getOwner() != null && ag.getOwner() == team && ag.getLevel() < ag.getGenerator().getTiers().length - 1) {
+                if (ag.getOwner() != null && ag.getOwner() == team && ag.getLevel() < ag.getGenerator().getTiers().size() - 1) {
                     ig = ag;
                     break;
                 }
             }
         } else {
             for (ItemGenerator ag : BedwarPack.getInstance().itemGenerators.get(game)) {
-                if(ag.getOwner() == null && gen.equals(ag.getGenerator().getName()) && ag.getLevel() < ag.getGenerator().getTiers().length - 1) {
+                if(ag.getOwner() == null && gen.equals(ag.getGenerator().getName()) && ag.getLevel() < ag.getGenerator().getTiers().size() - 1) {
                     ig = ag;
                     break;
                 }

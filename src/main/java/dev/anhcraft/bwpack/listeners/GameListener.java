@@ -107,7 +107,7 @@ public class GameListener implements Listener {
                     if (ea.getShopkeepers() != null) {
                         for (Shopkeeper sk : ea.getShopkeepers()) {
                             Optional<Category> ctg = mk.getCategories().stream()
-                                    .filter(c -> c.getId().equals(sk.getCategory()))
+                                    .filter(c -> c.equals(sk.getCategory()))
                                     .findAny();
                             if (!ctg.isPresent()) continue;
                             Category ct = ctg.get();

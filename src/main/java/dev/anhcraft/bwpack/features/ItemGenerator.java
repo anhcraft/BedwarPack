@@ -8,12 +8,14 @@ import dev.anhcraft.bwpack.config.schemas.Generator;
 import dev.anhcraft.bwpack.config.schemas.Tier;
 import dev.anhcraft.craftkit.entity.ArmorStand;
 import dev.anhcraft.craftkit.entity.TrackedEntity;
+import dev.anhcraft.jvmkit.utils.CollectionUtil;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemGenerator {
     private final Location location;
@@ -51,11 +53,11 @@ public class ItemGenerator {
 
     @NotNull
     public Tier getTier(){
-        return generator.getTiers()[level];
+        return Objects.requireNonNull(CollectionUtil.getElementAt(level, generator.getTiers()));
     }
 
     public boolean levelUp(){
-        if(level == generator.getTiers().length - 1) return false;
+        if(level == generator.getTiers().size() - 1) return false;
         else {
             level++;
             return true;

@@ -2,11 +2,9 @@ package dev.anhcraft.bwpack.config;
 
 import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.Arena;
+import dev.anhcraft.battle.utils.ConfigHelper;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.config.schemas.BedwarArena;
-import dev.anhcraft.confighelper.ConfigHelper;
-import dev.anhcraft.confighelper.ConfigSchema;
-import dev.anhcraft.confighelper.exception.InvalidValueException;
 import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -29,17 +27,13 @@ public class BWPackConfig {
             messages.put(s, ChatUtil.formatColorCodes(msgConf.getString(s)));
         }
         ConfigurationSection arenaConf = conf.getConfigurationSection("arenas");
-        try {
-            for(String id : arenaConf.getKeys(false)){
-                Arena a = BattleApi.getInstance().getArena(id);
-                if(a == null){
-                    bp.getLogger().warning("Arena not configured in arenas.yml: " + id);
-                    continue;
-                }
-                arenas.put(id, ConfigHelper.readConfig(arenaConf.getConfigurationSection(id), ConfigSchema.of(BedwarArena.class)));
+        for(String id : arenaConf.getKeys(false)){
+            Arena a = BattleApi.getInstance().getArena(id);
+            if(a == null){
+                bp.getLogger().warning("Arena not configured in arenas.yml: " + id);
+                continue;
             }
-        } catch (InvalidValueException e) {
-            e.printStackTrace();
+            arenas.put(id, ConfigHelper.load(BedwarArena.class, arenaConf.getConfigurationSection(id)));
         }
     }
 
