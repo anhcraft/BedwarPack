@@ -77,10 +77,6 @@
 
     <repositories>
         <repository>
-            <id>mcvn-repo</id>
-            <url>https://repo.minecraftvn.net/repository/maven-public/</url>
-        </repository>
-        <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
@@ -107,14 +103,14 @@
         </dependency>
         <dependency>
             <groupId>dev.anhcraft</groupId>
-            <artifactId>battle.spigot.api</artifactId>
-            <version>1.2.5</version>
+            <artifactId>battle.spigot-api</artifactId>
+            <version>1.2.7</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dev.anhcraft</groupId>
             <artifactId>craftkit.spigot</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.4.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
