@@ -2,6 +2,7 @@ package dev.anhcraft.bwpack.features;
 
 import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.utils.ChatUtil;
 import dev.anhcraft.battle.utils.info.InfoHolder;
 import dev.anhcraft.battle.utils.info.InfoReplacer;
 import dev.anhcraft.bwpack.config.schemas.Generator;
@@ -74,7 +75,7 @@ public class ItemGenerator {
             int i = hologram.size() - 1;
             for(ArmorStand ent : hologram) {
                 String str = generator.getHologramLines().get(i);
-                ent.setCustomName(holder.replace(str));
+                ent.setCustomName(ChatUtil.formatColorCodes(holder.replace(str)));
                 i--;
             }
         }
