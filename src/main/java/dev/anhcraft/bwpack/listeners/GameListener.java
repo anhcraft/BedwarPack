@@ -42,6 +42,7 @@ public class GameListener implements Listener {
             location.add(0, gen.getHologramOffset(), 0);
             x.setVisible(false);
             x.setCustomNameVisible(true);
+            x.setGravity(false);
             list.add(x);
         }
         return list;
