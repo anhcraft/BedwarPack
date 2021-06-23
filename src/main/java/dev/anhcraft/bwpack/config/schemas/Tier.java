@@ -1,12 +1,12 @@
 package dev.anhcraft.bwpack.config.schemas;
 
 import dev.anhcraft.config.annotations.*;
+import dev.anhcraft.jvmkit.utils.CollectionUtil;
 import dev.anhcraft.jvmkit.utils.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.SecureRandom;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @SuppressWarnings("FieldMayBeFinal")
 @Configurable
@@ -19,7 +19,7 @@ public class Tier {
 
     @Setting
     @Validation(notEmpty = true, notNull = true)
-    private List<ItemChoice> items;
+    private Map<String, ItemChoice> items;
 
     private double maxChance;
 
@@ -30,25 +30,26 @@ public class Tier {
     @NotNull
     public ItemChoice randomizeItem(){
         double x = RANDOMIZER.nextDouble() * maxChance;
-        ItemChoice q = items.get(0);
-        for (int i = 1; i < items.size(); i++){
-            ItemChoice ic = items.get(i);
+        Iterator<ItemChoice> it = getItems().iterator();
+        ItemChoice q = it.next();
+        while (it.hasNext()){
+            ItemChoice ic = it.next();
             double c = ic.getChance();
             if(x < c) {
                 q = ic;
             }
         }
-        return q == null ? Objects.requireNonNull(RandomUtil.pickRandom(items)) : q;
+        return q;
     }
 
     @NotNull
-    public List<ItemChoice> getItems() {
-        return items;
+    public Collection<ItemChoice> getItems() {
+        return items.values();
     }
 
     @PostHandler
     private void handle(){
-        for (ItemChoice it : items) {
+        for (ItemChoice it : items.values()) {
             maxChance = Math.max(maxChance, it.getChance());
         }
     }
