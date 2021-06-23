@@ -11,9 +11,7 @@ import dev.anhcraft.bwpack.features.ItemGenerator;
 import dev.anhcraft.bwpack.features.PotionPool;
 import dev.anhcraft.bwpack.function.BWPackFunction;
 import dev.anhcraft.bwpack.listeners.*;
-import dev.anhcraft.craftkit.CraftExtension;
-import dev.anhcraft.craftkit.entity.ArmorStand;
-import dev.anhcraft.craftkit.entity.TrackedEntity;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +24,6 @@ public final class BedwarPack extends JavaPlugin {
     public final Multimap<Game, ItemGenerator> itemGenerators = MultimapBuilder.hashKeys().arrayListValues().build();
     public final Multimap<Game, PotionPool> potionPools = HashMultimap.create();
     public final BWPackConfig config = new BWPackConfig();
-    public CraftExtension craftExtension;
 
     @NotNull
     public static BedwarPack getInstance(){
@@ -36,7 +33,6 @@ public final class BedwarPack extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        craftExtension = CraftExtension.of(BedwarPack.class);
         config.reload();
 
         BattleApi.getInstance().getGuiManager().registerGuiHandler(BWPackFunction.class);
@@ -54,9 +50,8 @@ public final class BedwarPack extends JavaPlugin {
                     if(g == null || g.getPhase() != GamePhase.PLAYING){
                         for (ItemGenerator ag : itemGenerators.get(g)){
                             if (ag.getHologram() != null) {
-                                for (TrackedEntity<ArmorStand> x : ag.getHologram()) {
-                                    x.kill();
-                                    craftExtension.untrackEntity(x);
+                                for (ArmorStand x : ag.getHologram()) {
+                                    x.remove();
                                 }
                             }
                         }

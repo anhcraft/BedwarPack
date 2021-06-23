@@ -2,10 +2,10 @@ package dev.anhcraft.bwpack.config;
 
 import dev.anhcraft.battle.api.BattleApi;
 import dev.anhcraft.battle.api.arena.Arena;
+import dev.anhcraft.battle.utils.ChatUtil;
 import dev.anhcraft.battle.utils.ConfigHelper;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.config.schemas.BedwarArena;
-import dev.anhcraft.craftkit.common.utils.ChatUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.Nullable;

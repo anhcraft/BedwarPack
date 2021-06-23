@@ -6,7 +6,6 @@ import dev.anhcraft.config.annotations.Setting;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("FieldMayBeFinal")

@@ -12,6 +12,7 @@ import dev.anhcraft.battle.api.events.game.BedBreakEvent;
 import dev.anhcraft.battle.api.events.game.GamePhaseChangeEvent;
 import dev.anhcraft.battle.api.market.Category;
 import dev.anhcraft.battle.api.market.Market;
+import dev.anhcraft.battle.utils.ChatUtil;
 import dev.anhcraft.bwpack.BedwarPack;
 import dev.anhcraft.bwpack.config.schemas.BedwarArena;
 import dev.anhcraft.bwpack.config.schemas.Generator;
@@ -19,11 +20,8 @@ import dev.anhcraft.bwpack.config.schemas.Shopkeeper;
 import dev.anhcraft.bwpack.features.ItemGenerator;
 import dev.anhcraft.bwpack.features.PotionPool;
 import dev.anhcraft.bwpack.stats.BedDestroyStat;
-import dev.anhcraft.craftkit.common.utils.ChatUtil;
-import dev.anhcraft.craftkit.entity.ArmorStand;
-import dev.anhcraft.craftkit.entity.TrackedEntity;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -35,19 +33,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameListener implements Listener {
-    private List<TrackedEntity<ArmorStand>> createArmorStand(Generator gen, Location location, LocalGame game){
+    private List<ArmorStand> createArmorStand(Generator gen, Location location){
         if(!gen.isHologramEnabled()) return null;
         if(gen.getHologramLines() == null || gen.getHologramLines().isEmpty()) return null;
-        List<TrackedEntity<ArmorStand>> list = new ArrayList<>();
+        List<ArmorStand> list = new ArrayList<>();
         for(int i = gen.getHologramLines().size() - 1; i >= 0; i--){
-            ArmorStand x = ArmorStand.spawn(location.clone());
+            ArmorStand x = location.getWorld().spawn(location, ArmorStand.class);
             location.add(0, gen.getHologramOffset(), 0);
             x.setVisible(false);
-            x.setNameVisible(true);
-            x.setViewers(new ArrayList<>(game.getPlayers().keySet()));
-            TrackedEntity<ArmorStand> te = BedwarPack.getInstance().craftExtension.trackEntity(x);
-            te.setViewDistance(16 * Bukkit.getViewDistance());
-            list.add(te);
+            x.setCustomNameVisible(true);
+            list.add(x);
         }
         return list;
     }
@@ -83,7 +78,7 @@ public class GameListener implements Listener {
                                         nearestDist = dist;
                                     }
                                     game.addInvolvedWorld(genLoc.getWorld());
-                                    List<TrackedEntity<ArmorStand>> as = createArmorStand(ea.getLocalGenerator(), genLoc, game);
+                                    List<ArmorStand> as = createArmorStand(ea.getLocalGenerator(), genLoc);
                                     ItemGenerator ag = new ItemGenerator(genLoc, ea.getLocalGenerator(), chosenTeam, as);
                                     BedwarPack.getInstance().itemGenerators.put(game, ag);
                                     bwts.remove(chosenTeam);
@@ -98,7 +93,7 @@ public class GameListener implements Listener {
                         for (Generator gen : ea.getSharedGenerators()) {
                             for (Location loc : gen.getLocations()) {
                                 game.addInvolvedWorld(loc.getWorld());
-                                ItemGenerator ag = new ItemGenerator(loc, gen, null, createArmorStand(gen, loc, game));
+                                ItemGenerator ag = new ItemGenerator(loc, gen, null, createArmorStand(gen, loc));
                                 BedwarPack.getInstance().itemGenerators.put(game, ag);
                             }
                         }

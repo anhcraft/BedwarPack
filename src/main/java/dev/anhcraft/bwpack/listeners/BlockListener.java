@@ -8,7 +8,7 @@ import dev.anhcraft.battle.api.arena.game.controllers.BedWarController;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
 import dev.anhcraft.battle.api.arena.team.TeamManager;
 import dev.anhcraft.bwpack.utils.GameUtils;
-import dev.anhcraft.craftkit.cb_common.NMSVersion;
+import dev.anhcraft.config.bukkit.NMSVersion;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;

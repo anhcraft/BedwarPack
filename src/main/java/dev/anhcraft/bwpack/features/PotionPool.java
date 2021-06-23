@@ -2,8 +2,8 @@ package dev.anhcraft.bwpack.features;
 
 import dev.anhcraft.battle.api.arena.game.Game;
 import dev.anhcraft.battle.api.arena.team.BWTeam;
+import dev.anhcraft.battle.utils.BoundingBox;
 import dev.anhcraft.bwpack.utils.TargetPlayer;
-import dev.anhcraft.craftkit.cb_common.BoundingBox;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;

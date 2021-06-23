@@ -6,10 +6,9 @@ import dev.anhcraft.battle.utils.info.InfoHolder;
 import dev.anhcraft.battle.utils.info.InfoReplacer;
 import dev.anhcraft.bwpack.config.schemas.Generator;
 import dev.anhcraft.bwpack.config.schemas.Tier;
-import dev.anhcraft.craftkit.entity.ArmorStand;
-import dev.anhcraft.craftkit.entity.TrackedEntity;
 import dev.anhcraft.jvmkit.utils.CollectionUtil;
 import org.bukkit.Location;
+import org.bukkit.entity.ArmorStand;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,9 +22,9 @@ public class ItemGenerator {
     private int level;
     private long nextSpawn;
     private final BWTeam owner;
-    private final List<TrackedEntity<ArmorStand>> hologram;
+    private final List<ArmorStand> hologram;
 
-    public ItemGenerator(@NotNull Location location, @NotNull Generator generator, @Nullable BWTeam owner, List<TrackedEntity<ArmorStand>> hologram) {
+    public ItemGenerator(@NotNull Location location, @NotNull Generator generator, @Nullable BWTeam owner, List<ArmorStand> hologram) {
         this.generator = generator;
         this.location = location;
         this.owner = owner;
@@ -73,10 +72,9 @@ public class ItemGenerator {
                     .inform("time_left", BattleApi.getInstance().formatShortFormDateMinutes(new Date(delta)))
                     .compile();
             int i = hologram.size() - 1;
-            for(TrackedEntity<ArmorStand> ent : hologram) {
+            for(ArmorStand ent : hologram) {
                 String str = generator.getHologramLines().get(i);
-                ent.getEntity().setName(holder.replace(str));
-                ent.getEntity().sendUpdate();
+                ent.setCustomName(holder.replace(str));
                 i--;
             }
         }
@@ -92,7 +90,7 @@ public class ItemGenerator {
     }
 
     @Nullable
-    public List<TrackedEntity<ArmorStand>> getHologram() {
+    public List<ArmorStand> getHologram() {
         return hologram;
     }
 }
