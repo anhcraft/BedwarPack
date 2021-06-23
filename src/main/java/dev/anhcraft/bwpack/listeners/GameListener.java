@@ -43,6 +43,7 @@ public class GameListener implements Listener {
             x.setVisible(false);
             x.setCustomNameVisible(true);
             x.setGravity(false);
+            x.setInvulnerable(true);
             list.add(x);
         }
         return list;
@@ -103,7 +104,7 @@ public class GameListener implements Listener {
                     if (ea.getShopkeepers() != null) {
                         for (Shopkeeper sk : ea.getShopkeepers()) {
                             Optional<Category> ctg = mk.getCategories().stream()
-                                    .filter(c -> c.equals(sk.getCategory()))
+                                    .filter(c -> c.getId().equals(sk.getCategory()))
                                     .findAny();
                             if (!ctg.isPresent()) continue;
                             Category ct = ctg.get();
