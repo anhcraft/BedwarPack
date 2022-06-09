@@ -30,13 +30,13 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.code.gson:gson:2.8.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.19" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.md-5:bungeecord-chat:1.12-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:battle.spigot-api:1.3.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: dev.anhcraft:battle.spigot-api:1.4.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft:JvmKit:1.1.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft:Inst:1.0.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft.config:config.bukkit:1.0.3" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft.config:config.common:1.0.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft.config:config.bukkit:v1.1.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.anhcraft.config:config.common:v1.1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.objecthunter:exp4j:0.4.8" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.6" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:21.0.1" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: io.papermc:paperlib:1.0.7" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.jetbrains:annotations:23.0.0" level="project" />
   </component>
 </module>

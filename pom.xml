@@ -6,7 +6,7 @@
 
     <groupId>dev.anhcraft</groupId>
     <artifactId>bwpack</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <packaging>jar</packaging>
 
     <name>BedwarPack</name>
@@ -38,55 +38,55 @@
                     <relocations>
                         <relocation>
                             <pattern>dev.anhcraft.jvmkit</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.jvmkit</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.jvmkit</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>co.aikar.commands</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.acf</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.acf</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>dev.anhcraft.config</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.config</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.config</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>dev.anhcraft.inst</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.inst</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.inst</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.hikari</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.hikari</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>net.objecthunter.exp4j</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.exp4j</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.exp4j</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.slf4j</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.slf4j</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.slf4j</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.intellij.lang.annotations</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.annotations</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.annotations</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.jetbrains.annotations</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.annotations</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.annotations</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.bstats</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.papermc.lib</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.paperlib</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.paperlib</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>de.tr7zw</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.tr7zw</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.nbt</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>javassist</pattern>
-                            <shadedPattern>dev.anhcraft.battle.ext.javassist</shadedPattern>
+                            <shadedPattern>dev.anhcraft.battle.libs.javassist</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -140,7 +140,7 @@
         <dependency>
             <groupId>dev.anhcraft</groupId>
             <artifactId>battle.spigot-api</artifactId>
-            <version>1.3.3</version>
+            <version>1.4.7</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
